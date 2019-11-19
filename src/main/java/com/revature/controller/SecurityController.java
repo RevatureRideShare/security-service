@@ -13,7 +13,6 @@ import com.revature.repository.SecurityRepository;
 @CrossOrigin
 public class SecurityController {
 
-	//TODO: Try commenting this out and see if that changes anything.
 	private SecurityRepository securityRepository;
 
 	public SecurityController(SecurityRepository securityRepository) {
