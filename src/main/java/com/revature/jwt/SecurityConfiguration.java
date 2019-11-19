@@ -39,7 +39,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	// each method.
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		System.out.println("Using my security");
 		http
 				// Removing the CSRF and state in the current session because when we use JWT we
 				// do not need them.
