@@ -30,8 +30,12 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 		this.securityRepository = securityRepository;
 	}
 
-	// Filters requests to ensure that user has appropriate permissions before
-	// performing methods.
+	//! This method filters requests to ensure that user has appropriate permissions before
+	//! they can perform any methods.
+	//! This method takes in a HttpServletRequest and an HttpServletResponse object provided by the DispatcherServlet.
+	//! The method also takes in a FilterChain object provided by Spring Security.
+	//! The method returns nothing, but it modifies the HttpServletResponse based on whether the user has the roles necessary to perform the requested operation.
+	//! This method relies on the Spring Security dependency.
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
@@ -54,7 +58,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 		chain.doFilter(request, response);
 	}
 
-	// Checks the HTTP Request header to see if the JWT is there.
+	//! This method checks the HTTP Request header to see if the JWT is there and matches a user in the security table.
+	//! The method takes in an HttpServletRequest provided by the doFilterInternal method.
+	//! The method returns an Authentication object if the user is present in the security table and null if the user is not present.
+	//! This method relies on the Spring Security dependency.
 	private Authentication getEmailPasswordAuthentication(HttpServletRequest request) {
 		String token = request.getHeader(JwtProperties.HEADER_STRING).replace(JwtProperties.TOKEN_PREFIX, "");
 

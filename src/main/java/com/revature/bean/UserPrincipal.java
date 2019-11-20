@@ -12,12 +12,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class UserPrincipal implements UserDetails {
 	private Security security;
 
+	//! This constructor allows Spring to perform constructor injection of any beans required for the UserPrincipal to function.
 	public UserPrincipal(Security security) {
 		this.security = security;
 	}
 
-	// Gets list of what a user's roles are, which determines which methods they can
-	// run.
+	//! Gets list of what a user's roles are, which determines which methods they can
+	//! run.
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<>();
@@ -43,26 +44,31 @@ public class UserPrincipal implements UserDetails {
 		return this.security.getEmail();
 	}
 
-	// Checks if the account is expired.
+	//! This method checks if the account is expired. Right now there is no way for an account to expire.
 	@Override
 	public boolean isAccountNonExpired() {
 		// Might should do something else.
 		return true;
 	}
 
-	// Checks if the account has been locked.
+	//! This method checks if the account has been locked. 
+	//! Right now there is no way for an account to be locked by the security microservice.
 	@Override
 	public boolean isAccountNonLocked() {
 		// Might should do something else.
 		return true;
 	}
 
+	//! This method checks to see if the credentials have expired. 
+	//! Right now there is no way for the credentials to expire.
 	@Override
 	public boolean isCredentialsNonExpired() {
 		// Might should do something else.
 		return true;
 	}
 
+	//! This method checks to see if the account is enabled. 
+	//! Right now there is no way for the account to be disabled.
 	@Override
 	public boolean isEnabled() {
 		// Might should do something else.

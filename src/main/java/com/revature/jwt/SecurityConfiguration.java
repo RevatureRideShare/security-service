@@ -31,13 +31,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		this.securityRepository = securityRepository;
 	}
 
+	//! This configure method sets the AuthenticationManagerBuilder object that will be used by Spring Security.
+	//! This method takes in an AuthenticationManagerBuilder object provided by Spring Security.
+	//! This method relies on the Spring Security dependency.
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) {
 		auth.authenticationProvider(authenticationProvider());
 	}
 
-	// This method configures different request mappings and attaches permissions to
-	// each method.
+	//! This configure method configures the roles required to perform any requests given to the microservice ecosystem.
+	//! The method runs on initial startup of the Spring Boot Application.
+	//! The method takes in a HttpSecurity object provided by Spring Security.
+	//! The method relies on the Spring Security dependency.
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
@@ -58,7 +63,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				// Configuring the access rules for each real endpoint.
 				
 				// Security microservice:
-				.antMatchers(HttpMethod.POST, "/security").permitAll()
+				.antMatchers(HttpMethod.POST, "/security").permitAll() // User can't have a role because they are creating a new user account.
 				
 				// Admin microservice:
 				.antMatchers(HttpMethod.DELETE, "/user/*").hasRole("ADMIN")
@@ -67,7 +72,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				
 				// User microservice:
 					// User controller methods:
-				.antMatchers(HttpMethod.POST, "/user").hasRole("USER")
+				.antMatchers(HttpMethod.POST, "/user").permitAll() // User can't have a role because they are creating a new user account.
 				//TODO: This method should also allow the user who owns the account to perform it (email of logged in user should equal the email in the URL).
 				.antMatchers(HttpMethod.PUT, "/user/*").hasRole("ADMIN")  
 				.antMatchers(HttpMethod.PATCH, "/user/*").hasRole("ADMIN")
@@ -75,7 +80,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/user").hasRole("USER")
 				.antMatchers(HttpMethod.GET, "/user/{email}").hasRole("USER")
 					// Car controller methods:
-				.antMatchers(HttpMethod.POST, "/car").hasRole("USER")
+				.antMatchers(HttpMethod.POST, "/car").permitAll() // User can't have a role because they are creating a new user account.
 				.antMatchers(HttpMethod.GET, "/user/{email}/car").hasRole("USER")
 				
 				// Location microservice:
@@ -91,14 +96,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.anyRequest()
 				.authenticated();
 		
-		// Below commented out section allows users to access any method.
-		/*
-		 * .authorizeRequests() .antMatchers("/**").permitAll()
-		 * .antMatchers(HttpMethod.POST, "/**").permitAll();
-		 */
 	}
 
-	// ???
+	//! This method provides the DaoAuthenticationProvider object required by Spring Security to ensure that users are authenticated correctly.
+	//! The method also sets the passwordEncoder to be used for the entire application.
+	//! This method relies on the Spring Security dependency.
 	@Bean
 	DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -108,7 +110,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return daoAuthenticationProvider;
 	}
 
-	// Sets the password encoder and decoder.
+	//! This method allows Spring to create and manage the passwordEncoder bean.
+	//! This method relies on the Spring Core dependency.
 	@Bean
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();

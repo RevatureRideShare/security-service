@@ -18,8 +18,11 @@ public class UserPrincipalDetailsService implements UserDetailsService {
 		this.securityRepository = securityRepository;
 	}
 
-	// Loads user by email not by the username, but the method in UserDetailsService
-	// is named loadUserByUsername so it had to remain the same.
+	//! This method loads a user by email not by the username, but the method is named UserDetailsService
+	//! because it overrides a method provided by Spring Security.
+	//! The method takes in a String that represents the user's email.
+	//! The method returns a UserPrincipal object that represents the logged in user.
+	//! This method relies on the Spring Security dependency.
 	@Override
 	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 		Security security = this.securityRepository.findByEmail(s);

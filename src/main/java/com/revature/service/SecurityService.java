@@ -21,7 +21,11 @@ public class SecurityService {
 		this.securityRepository = securityRepository;
 	}
 	
-	//!
+	//! The createSecurity method is used when registering a new user. 
+	//! It creates the Security object that gets persisted in the security table.
+	//! The method takes in a Security object that should include the email and password of the user.
+	//! All new Security objects have the "USER" role by default.
+	//! The method returns a Security object which is the Security that was persisted in the database.
 	public Security createSecurity(Security security) {
 		Security encodedSecurity = new Security(security.getEmail(), passwordEncoder.encode(security.getPassword()), "USER");
 		Security responseSecurity = securityRepository.save(encodedSecurity);

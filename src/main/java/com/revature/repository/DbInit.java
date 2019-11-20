@@ -8,7 +8,8 @@ import com.revature.bean.Security;
 import java.util.Arrays;
 import java.util.List;
 
-// This class initializes the database when the application is first started.
+//! The DbInit class initializes the database when the application is first started. 
+//! Be careful as there is a method for demoing the service that truncates the security table on initial startup and provides it with a clean set of users.
 @Service
 public class DbInit implements CommandLineRunner {
 	private SecurityRepository securityRepository;
@@ -19,8 +20,9 @@ public class DbInit implements CommandLineRunner {
 		this.passwordEncoder = passwordEncoder;
 	}
 
-	// Sets up the initial database state on every run of the Spring Boot application.
-	// COMMENT THE BELOW METHOD OUT WHEN YOU WANT TO KEEP THE PERSISTED INFORMATION AS IS.
+	//! This method sets up the initial database state on every run of the Spring Boot application.
+	//! COMMENT OUT OR DELETE THE METHOD WHEN THE FINAL VERSION OF THE APPLICATION IS IN USE.
+	//! This method relies on the Spring Boot dependency.
 	@Override
 	public void run(String... args) {
 		// Delete all the previous users in the database.

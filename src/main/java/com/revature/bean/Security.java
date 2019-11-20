@@ -49,6 +49,8 @@ public class Security {
 		return password;
 	}
 
+	//! Get the roles string field as a list of strings. 
+	//! Gets list of roles for Spring Security to authorize method calls off of.
 	public List<String> getRoleList() {
 		if (this.roles.length() > 0) {
 			return Arrays.asList(this.roles.split(", "));
@@ -56,7 +58,7 @@ public class Security {
 		return new ArrayList<>();
 	}
 
-	// Constructor for adding new users where role is default.
+	//! This constructor is for adding new users where the role is the default ("USER").
 	public Security(int userID, String email, String password) {
 		super();
 		this.userID = userID;
@@ -64,14 +66,14 @@ public class Security {
 		this.password = password;
 	}
 
-	// Constructor used by service class for creating users with encrypted passwords.
+	//! This constructor is used by the SecurityService class for registering users with encrypted passwords.
 	public Security(String email, String password, String roles) {
 		this.email = email;
 		this.password = password;
 		this.roles = roles;
 	}
 
-	// No args constructor.
+	//! This constructor is the no arguments constructor.
 	public Security() {
 		super();
 	}
