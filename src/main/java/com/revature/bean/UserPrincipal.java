@@ -1,4 +1,4 @@
-package com.revature.jwt;
+package com.revature.bean;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,8 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.revature.bean.Security;
-
+//! The UserPrincipal class represents a logged in user within a Spring Security context.
 public class UserPrincipal implements UserDetails {
 	private Security security;
 

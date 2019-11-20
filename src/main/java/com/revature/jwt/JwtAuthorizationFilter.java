@@ -17,9 +17,11 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 import com.auth0.jwt.JWT;
 import com.revature.bean.Security;
+import com.revature.bean.UserPrincipal;
 import com.revature.repository.SecurityRepository;
 
-// This class authorizes every request to ensure that the user has the appropriate permissions to perform each method.
+//! The JwtAuthorizationFilter class checks every request to ensure that a user 
+//! performing a specific action has the appropriate permissions to perform each method.
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 	private SecurityRepository securityRepository;
 

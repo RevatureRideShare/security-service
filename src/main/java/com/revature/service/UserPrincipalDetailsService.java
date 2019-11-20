@@ -1,4 +1,4 @@
-package com.revature.jwt;
+package com.revature.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -6,8 +6,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.revature.bean.Security;
+import com.revature.bean.UserPrincipal;
 import com.revature.repository.SecurityRepository;
 
+//! The UserPrincipalDetailsService class is a service class representing business logic around the UserPrincipal class. 
 @Service
 public class UserPrincipalDetailsService implements UserDetailsService {
 	private SecurityRepository securityRepository;
@@ -20,9 +22,7 @@ public class UserPrincipalDetailsService implements UserDetailsService {
 	// is named loadUserByUsername so it had to remain the same.
 	@Override
 	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-		// System.out.println("s: " + s);
 		Security security = this.securityRepository.findByEmail(s);
-		// System.out.println("Security: " + security);
 		UserPrincipal userPrincipal = new UserPrincipal(security);
 
 		return userPrincipal;

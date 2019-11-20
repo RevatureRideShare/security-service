@@ -19,7 +19,8 @@ public class DbInit implements CommandLineRunner {
 		this.passwordEncoder = passwordEncoder;
 	}
 
-	// Sets up the initial database state.
+	// Sets up the initial database state on every run of the Spring Boot application.
+	// COMMENT THE BELOW METHOD OUT WHEN YOU WANT TO KEEP THE PERSISTED INFORMATION AS IS.
 	@Override
 	public void run(String... args) {
 		// Delete all the previous users in the database.

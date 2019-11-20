@@ -1,6 +1,6 @@
 package com.revature.jwt;
 
-//This class builds the JWT.
+//! JwtProperties is the class that acts as the basis to build the JWT that is sent back on user login.
 public class JwtProperties {
 	public static final String SECRET = "Batch1909JavaFullStackIsTheGreatest";
 	// public static final int EXPIRATION_TIME = 864_000_000; // 10 Days

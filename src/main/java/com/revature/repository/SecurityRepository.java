@@ -5,7 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import com.revature.bean.Security;
 
-// Repository that handles DAO functions to and from security table.
+//! SecurityRepository is an interface that handles DAO functions to and 
+//! from security table by leveraging Spring Data.
 @Repository
 public interface SecurityRepository extends JpaRepository<Security, Long> {
 	Security findByEmail(String email);

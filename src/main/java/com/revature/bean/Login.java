@@ -1,6 +1,7 @@
 package com.revature.bean;
 
-//This bean class represents a login attempt and is used to login to the security service.
+//! The login bean class represents a login attempt and is used as a blueprint to translate login 
+//! attempts from JSON to security objects in the security microservice.
 public class Login {
 	private String email;
 	private String password;

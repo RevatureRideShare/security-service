@@ -11,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-// This bean class represents a registered user that will be persisted in the database.
+//! The Security bean class represents a registered user that will be persisted in the database.
 @Entity
 @Table(name = "security")
 public class Security {
@@ -51,12 +51,12 @@ public class Security {
 
 	public List<String> getRoleList() {
 		if (this.roles.length() > 0) {
-			return Arrays.asList(this.roles.split(","));
+			return Arrays.asList(this.roles.split(", "));
 		}
 		return new ArrayList<>();
 	}
 
-	// Constructor for adding new users without any roles.
+	// Constructor for adding new users where role is default.
 	public Security(int userID, String email, String password) {
 		super();
 		this.userID = userID;
@@ -64,7 +64,7 @@ public class Security {
 		this.password = password;
 	}
 
-	// Constructor for initializing the database with encrypted passwords.
+	// Constructor used by service class for creating users with encrypted passwords.
 	public Security(String email, String password, String roles) {
 		this.email = email;
 		this.password = password;
@@ -76,4 +76,10 @@ public class Security {
 		super();
 	}
 
+	@Override
+	public String toString() {
+		return "Security [userID=" + userID + ", email=" + email + ", password=" + password + ", roles=" + roles + "]";
+	}
+
+	
 }
