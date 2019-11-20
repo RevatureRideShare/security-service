@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 //! The UserPrincipal class represents a logged in user within a Spring Security context.
 public class UserPrincipal implements UserDetails {
@@ -18,8 +19,7 @@ public class UserPrincipal implements UserDetails {
 		this.security = security;
 	}
 
-	//! Gets list of what a user's roles are, which determines which methods they can
-	//! run.
+	//! Gets list of what a user's roles are, which determines which methods they can run.
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<>();

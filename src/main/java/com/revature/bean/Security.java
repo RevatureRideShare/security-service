@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 //! The Security bean class represents a registered user that will be persisted in the database.
 @Entity
 @Table(name = "security")

@@ -2,10 +2,12 @@ package com.revature.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +30,7 @@ public class SecurityController {
 
 	//! This field is the SecurityRepository object that handles DAO operations in the security table.
 	private SecurityRepository securityRepository;
+	
 	//! This field is the SecurityService object that handles business logic for the security microservice.
 	private SecurityService securityService;
 	
@@ -131,8 +134,7 @@ public class SecurityController {
 	//! Returns a 200 status code with "Success" in the response body if the user is allowed to perform the operation, 
 	//! returns a 403 status code if the user isn't allowed to perform the operation.
 	@PutMapping("/user/{email}")
-	public String updateUser(@RequestParam String email) {
-		// If principal email matches email in request param, allow user to perform operation, otherwise check admin.
+	public String updateUser() {
 		return "Success";
 	}
 
