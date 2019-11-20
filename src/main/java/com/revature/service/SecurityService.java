@@ -22,13 +22,37 @@ public class SecurityService {
 		this.securityRepository = securityRepository;
 	}
 	
-	//! The createSecurity method is used when registering a new user. 
+	//! The createUserSecurity method is used when registering a new user. 
 	//! It creates the Security object that gets persisted in the security table.
 	//! The method takes in a Security object that should include the email and password of the user.
-	//! All new Security objects have the "USER" role by default.
+	//! All Security objects created with this method have the "USER" role by default.
 	//! The method returns a Security object which is the Security that was persisted in the database.
-	public Security createSecurity(Security security) {
+	public Security createUserSecurity(Security security) {
 		Security encodedSecurity = new Security(security.getEmail(), passwordEncoder.encode(security.getPassword()), "USER");
+		Security responseSecurity = securityRepository.save(encodedSecurity);
+		return responseSecurity;
+	}
+	
+
+	//! The createAdminSecurity method is used when registering a new admin. 
+	//! It creates the Security object that gets persisted in the security table.
+	//! The method takes in a Security object that should include the email and password of the user.
+	//! All Security objects created with this method have the "ADMIN" role by default.
+	//! The method returns a Security object which is the Security that was persisted in the database.
+	public Security createAdminSecurity(Security security) {
+		Security encodedSecurity = new Security(security.getEmail(), passwordEncoder.encode(security.getPassword()), "ADMIN");
+		Security responseSecurity = securityRepository.save(encodedSecurity);
+		return responseSecurity;
+	}
+	
+
+	//! The createNullSecurity method is used when registering a new Security object for testing purposes. 
+	//! It creates the Security object that gets persisted in the security table.
+	//! The method takes in a Security object that should include the email and password of the user.
+	//! All Security objects created with this method have the "NULL" role by default.
+	//! The method returns a Security object which is the Security that was persisted in the database.
+	public Security createNullSecurity(Security security) {
+		Security encodedSecurity = new Security(security.getEmail(), passwordEncoder.encode(security.getPassword()), "NULL");
 		Security responseSecurity = securityRepository.save(encodedSecurity);
 		return responseSecurity;
 	}

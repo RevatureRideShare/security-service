@@ -78,7 +78,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 					// User controller methods:
 				.antMatchers(HttpMethod.POST, "/user").permitAll() // User can't have a role because they are creating a new user account.
 				//TODO: This method should also allow the user who owns the account to perform it (email of logged in user should equal the email in the URL).
-				.antMatchers(HttpMethod.PUT, "/user/*").hasRole("ADMIN")  
+				.antMatchers(HttpMethod.PUT, "/user/{email}").hasRole("ADMIN")  
 				.antMatchers(HttpMethod.PATCH, "/user/*").hasRole("ADMIN")
 				.antMatchers(HttpMethod.GET, "/user?role={role}").hasRole("USER")
 				.antMatchers(HttpMethod.GET, "/user").hasRole("USER")

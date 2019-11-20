@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.bean.Security;
@@ -69,7 +70,7 @@ public class SecurityController {
 	@PostMapping("/security")
 	public ResponseEntity createSecurity(@RequestBody Security security) {
 		try {
-			securityService.createSecurity(security);
+			securityService.createNullSecurity(security);
 			return new ResponseEntity(HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -78,6 +79,7 @@ public class SecurityController {
 
 	// Admin microservice:
 	//! Method for authorizing deleting users from the user table in the user microservice.
+	//! Security objects in the security table are never deleted for record keeping purposes.
 	//! Requires a JWT passed in the HttpRequest header.
 	//! Returns a 200 status code with "Success" in the response body if the user is allowed to perform the operation, 
 	//! returns a 403 status code if the user isn't allowed to perform the operation.
@@ -91,8 +93,13 @@ public class SecurityController {
 	//! Returns a 200 status code with "Success" in the response body if the user is allowed to perform the operation, 
 	//! returns a 403 status code if the user isn't allowed to perform the operation.
 	@PostMapping("/admin")
-	public String createAdmin() {
-		return "Success";
+	public ResponseEntity createAdmin(@RequestBody Security security) {
+		try {
+			securityService.createAdminSecurity(security);
+			return new ResponseEntity(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	//! Method for authorizing getting a list of all admins in the admin table in the admin microservice.
@@ -110,16 +117,22 @@ public class SecurityController {
 	//! Returns a 200 status code with "Success" in the response body if the user is allowed to perform the operation, 
 	//! returns a 403 status code if the user isn't allowed to perform the operation.
 	@PostMapping("/user")
-	public String createUser() {
-		return "Success";
+	public ResponseEntity createUser(@RequestBody Security security) {
+		try {
+			securityService.createUserSecurity(security);
+			return new ResponseEntity(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	//! Method for authorizing updates to entire user object in the user table in the user microservice.
 	//! Requires a JWT passed in the HttpRequest header.
 	//! Returns a 200 status code with "Success" in the response body if the user is allowed to perform the operation, 
 	//! returns a 403 status code if the user isn't allowed to perform the operation.
-	@PutMapping("/user/*")
-	public String updateUser() {
+	@PutMapping("/user/{email}")
+	public String updateUser(@RequestParam String email) {
+		// If principal email matches email in request param, allow user to perform operation, otherwise check admin.
 		return "Success";
 	}
 
