@@ -45,7 +45,6 @@ public class SecurityService {
 		return responseSecurity;
 	}
 	
-
 	//! The createNullSecurity method is used when registering a new Security object for testing purposes. 
 	//! It creates the Security object that gets persisted in the security table.
 	//! The method takes in a Security object that should include the email and password of the user.
@@ -56,4 +55,5 @@ public class SecurityService {
 		Security responseSecurity = securityRepository.save(encodedSecurity);
 		return responseSecurity;
 	}
+
 }

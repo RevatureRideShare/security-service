@@ -15,4 +15,5 @@ public class JwtProperties {
 	
 	//! This field is the key in the key value pair provided in the JWT.
 	public static final String HEADER_STRING = "Authorization";
+	
 }

@@ -42,4 +42,5 @@ public class DbInit implements CommandLineRunner {
 		// Save the encoded users to the database.
 		this.securityRepository.saveAll(users);
 	}
+	
 }

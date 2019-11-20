@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 //! The UserPrincipal class represents a logged in user within a Spring Security context.
 public class UserPrincipal implements UserDetails {
+	
 	//! This field represents the Security object that the logged in user is based off of.
 	private Security security;
 
@@ -75,4 +76,5 @@ public class UserPrincipal implements UserDetails {
 		// Might should do something else.
 		return true;
 	}
+	
 }

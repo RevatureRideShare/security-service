@@ -29,7 +29,7 @@ public class UserPrincipalDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 		Security security = this.securityRepository.findByEmail(s);
 		UserPrincipal userPrincipal = new UserPrincipal(security);
-
 		return userPrincipal;
 	}
+	
 }

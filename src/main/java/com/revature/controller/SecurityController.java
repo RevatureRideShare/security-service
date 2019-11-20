@@ -239,4 +239,5 @@ public class SecurityController {
 	public String getAllTrainingLocations() {
 		return "Success";
 	}
+	
 }

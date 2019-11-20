@@ -61,7 +61,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
 		return authentication;
-
 	}
 
 	//! This method attaches JWT to response header if login is successful.
@@ -83,4 +82,5 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		// Adding JWT token in the response header.
 		response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + token);
 	}
+	
 }

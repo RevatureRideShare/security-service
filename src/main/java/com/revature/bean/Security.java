@@ -87,6 +87,5 @@ public class Security {
 	public String toString() {
 		return "Security [userID=" + userID + ", email=" + email + ", password=" + password + ", roles=" + roles + "]";
 	}
-
 	
 }

@@ -15,4 +15,5 @@ public interface SecurityRepository extends JpaRepository<Security, Long> {
 	//! The method returns a security object that it finds in the security table or null if the email matches nothing.
 	//! The method relies on the Spring Data dependency.
 	Security findByEmail(String email);
+	
 }
