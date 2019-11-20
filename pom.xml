@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.revature</groupId>
-	<artifactId>security-service</artifactId>
+	<artifactId>SecurityService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>security-service</name>
+	<name>SecurityService</name>
 	<description>Security service for RideShare</description>
 
 	<properties>
