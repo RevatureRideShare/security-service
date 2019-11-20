@@ -12,6 +12,8 @@ import com.revature.repository.SecurityRepository;
 //! The UserPrincipalDetailsService class is a service class representing business logic around the UserPrincipal class. 
 @Service
 public class UserPrincipalDetailsService implements UserDetailsService {
+	
+	//! The SecurityRepository object performs DAO operations for the security table.
 	private SecurityRepository securityRepository;
 
 	public UserPrincipalDetailsService(SecurityRepository securityRepository) {

@@ -28,6 +28,8 @@ import java.util.Date;
 //! to authenticate the user when they login. JwtAuthenticationFilter extends the 
 //! UsernamePasswordAuthenticationFilter class that exists in Spring Security.
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+	
+	//! This field is an AuthenticationManager object provided by Spring Security.
 	private AuthenticationManager authenticationManager;
 
 	public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {

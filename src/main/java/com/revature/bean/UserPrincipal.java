@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 //! The UserPrincipal class represents a logged in user within a Spring Security context.
 public class UserPrincipal implements UserDetails {
+	//! This field represents the Security object that the logged in user is based off of.
 	private Security security;
 
 	//! This constructor allows Spring to perform constructor injection of any beans required for the UserPrincipal to function.

@@ -14,6 +14,7 @@ public class SecurityService {
 	//! and to encrypt passwords during login attempts for comparison to persisted passwords.
 	private PasswordEncoder passwordEncoder;
 	
+	//! The SecurityRepository object peforms DAO operations for the security table.
 	private SecurityRepository securityRepository;
 
 	public SecurityService(PasswordEncoder passwordEncoder, SecurityRepository securityRepository) {

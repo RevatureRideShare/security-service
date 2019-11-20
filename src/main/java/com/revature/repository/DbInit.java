@@ -12,7 +12,11 @@ import java.util.List;
 //! Be careful as there is a method for demoing the service that truncates the security table on initial startup and provides it with a clean set of users.
 @Service
 public class DbInit implements CommandLineRunner {
+	
+	//! This field is a SecurityRepository object that handles DAO operations for the security table.
 	private SecurityRepository securityRepository;
+	
+	//! This field is a PasswordEncoder object that provides the encryption method for passwords stored in the security table.
 	private PasswordEncoder passwordEncoder;
 
 	public DbInit(SecurityRepository securityRepository, PasswordEncoder passwordEncoder) {

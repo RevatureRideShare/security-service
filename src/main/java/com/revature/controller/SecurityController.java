@@ -25,7 +25,9 @@ import com.revature.service.SecurityService;
 @CrossOrigin
 public class SecurityController {
 
+	//! This field is the SecurityRepository object that handles DAO operations in the security table.
 	private SecurityRepository securityRepository;
+	//! This field is the SecurityService object that handles business logic for the security microservice.
 	private SecurityService securityService;
 	
 	//! This constructor allows Spring to perform constructor injection of any required beans for the SecurityController class to operate.

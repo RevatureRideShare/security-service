@@ -22,7 +22,11 @@ import com.revature.jwt.JwtAuthorizationFilter;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+	
+	//! This field is a UserPrincipalDetailsService that is used to handle business logic related to UserPrincipal objects.
 	private UserPrincipalDetailsService userPrincipalDetailsService;
+	
+	//! This field is a SecurityRepository object that handles DAO operations for the security table.
 	private SecurityRepository securityRepository;
 
 	public SecurityConfiguration(UserPrincipalDetailsService userPrincipalDetailsService,

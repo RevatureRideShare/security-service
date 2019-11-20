@@ -23,6 +23,8 @@ import com.revature.repository.SecurityRepository;
 //! The JwtAuthorizationFilter class checks every request to ensure that a user 
 //! performing a specific action has the appropriate permissions to perform each method.
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
+	
+	//! This field is a SecurityRepository object that handles DAO operations for the security table.
 	private SecurityRepository securityRepository;
 
 	public JwtAuthorizationFilter(AuthenticationManager authenticationManager, SecurityRepository securityRepository) {

@@ -16,6 +16,7 @@ import javax.persistence.Table;
 @Table(name = "security")
 public class Security {
 
+	//! This field is the primary key for Security objects persisted in the security table.
 	// UUID did not work for userID because hibernate could not convert big decimal
 	// into UUID.
 	@Id
@@ -23,13 +24,15 @@ public class Security {
 	@Column(name = "user_id")
 	int userID;
 
+	//! This field is the user's email address. It must be unique.
 	@Column(name = "email")
 	String email;
 
+	//! This field is the user's password. It will be encrypted by the time the Security object is persisted in the security table.
 	@Column(name = "password")
 	String password;
 
-	// Contains security roles.
+	//! This field contains any Security roles the user has. Separate roles must be separated by ", ".
 	@Column(name = "roles")
 	private String roles = "";
 
