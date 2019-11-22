@@ -7,74 +7,80 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
-//! The UserPrincipal class represents a logged in user within a Spring Security context.
+/**
+ * The UserPrincipal class represents a logged in user within a Spring Security context.
+ * 
+ * @author Michael
+ *
+ */
 public class UserPrincipal implements UserDetails {
-	
-	//! This field represents the Security object that the logged in user is based off of.
-	private Security security;
 
-	//! This constructor allows Spring to perform constructor injection of any beans required for the UserPrincipal to function.
-	public UserPrincipal(Security security) {
-		this.security = security;
-	}
+  //! This field represents the Security object that the logged in user is based off of.
+  private Security security;
 
-	//! Gets list of what a user's roles are, which determines which methods they can run.
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<GrantedAuthority> authorities = new ArrayList<>();
+  //! This constructor allows Spring to perform constructor injection of any beans required for the
+  //! UserPrincipal to function.
+  public UserPrincipal(Security security) {
+    this.security = security;
+  }
 
-		// Extract list of roles (ROLE_name)
-		this.security.getRoleList().forEach(r -> {
-			GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + r);
-			authorities.add(authority);
-		});
+  //! Gets list of what a user's roles are, which determines which methods they can run.
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    List<GrantedAuthority> authorities = new ArrayList<>();
 
-		return authorities;
-	}
+    // Extract list of roles (ROLE_name)
+    this.security.getRoleList().forEach(r -> {
+      GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + r);
+      authorities.add(authority);
+    });
 
-	@Override
-	public String getPassword() {
-		System.out.println(this.security);
-		return this.security.getPassword();
-	}
+    return authorities;
+  }
 
-	@Override
-	public String getUsername() {
-		// Email stands in for username.
-		return this.security.getEmail();
-	}
+  @Override
+  public String getPassword() {
+    System.out.println(this.security);
+    return this.security.getPassword();
+  }
 
-	//! This method checks if the account is expired. Right now there is no way for an account to expire.
-	@Override
-	public boolean isAccountNonExpired() {
-		// Might should do something else.
-		return true;
-	}
+  @Override
+  public String getUsername() {
+    // Email stands in for username.
+    return this.security.getEmail();
+  }
 
-	//! This method checks if the account has been locked. 
-	//! Right now there is no way for an account to be locked by the security microservice.
-	@Override
-	public boolean isAccountNonLocked() {
-		// Might should do something else.
-		return true;
-	}
+  //! This method checks if the account is expired. Right now there is no way for an account to
+  //! expire.
+  @Override
+  public boolean isAccountNonExpired() {
+    // Might should do something else.
+    return true;
+  }
 
-	//! This method checks to see if the credentials have expired. 
-	//! Right now there is no way for the credentials to expire.
-	@Override
-	public boolean isCredentialsNonExpired() {
-		// Might should do something else.
-		return true;
-	}
+  //! This method checks if the account has been locked.
+  //! Right now there is no way for an account to be locked by the security microservice.
+  @Override
+  public boolean isAccountNonLocked() {
+    // Might should do something else.
+    return true;
+  }
 
-	//! This method checks to see if the account is enabled. 
-	//! Right now there is no way for the account to be disabled.
-	@Override
-	public boolean isEnabled() {
-		// Might should do something else.
-		return true;
-	}
-	
+  //! This method checks to see if the credentials have expired.
+  //! Right now there is no way for the credentials to expire.
+  @Override
+  public boolean isCredentialsNonExpired() {
+    // Might should do something else.
+    return true;
+  }
+
+  //! This method checks to see if the account is enabled.
+  //! Right now there is no way for the account to be disabled.
+  @Override
+  public boolean isEnabled() {
+    // Might should do something else.
+    return true;
+  }
+
 }
