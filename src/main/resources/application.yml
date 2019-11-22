@@ -1,3 +1,6 @@
+server:
+  port: 8092
+
 spring:
   # Schema that the application assumes that the security table is in.
   jpa:
