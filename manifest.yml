@@ -1,5 +1,5 @@
 applications:
-- name: security-service
+- name: rideshare-security-service
   instances: 1
   memory: 800m
   path: target/security-service-0.0.1-SNAPSHOT.jar
