@@ -35,11 +35,11 @@ pipeline {
                                   credentialsId   : 'PCF_LOGIN',
                                   usernameVariable: 'USERNAME',
                                   passwordVariable: 'PASSWORD']]) {
-                    sh 'cf events rideshare-security-service'
+                    sh 'cf events rideshare-security-service --recent'
 					sh 'cf logs rideshare-security-service --recent'
                     sh 'cf login -a http://api.run.pivotal.io -u $USERNAME -p $PASSWORD \
                     -o "Revature Training" -s development'
-                    sh 'cf push'
+                    //sh 'cf push'
                     
                 }
             }
