@@ -39,8 +39,8 @@ pipeline {
 					sh 'cf logs rideshare-security-service --recent'
                     sh 'cf login -a http://api.run.pivotal.io -u $USERNAME -p $PASSWORD \
                     -o "Revature Training" -s development'
-                    sh 'cf apps'
-                    //sh 'cf push'
+                    //sh 'cf apps'
+                    sh 'cf push'
                     
                 }
             }
