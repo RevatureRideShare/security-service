@@ -1,5 +1,6 @@
 server:
-  port: ${PORT} //8092
+  #8092
+  port: ${PORT} 
 
 spring:
   # Schema that the application assumes that the security table is in.
