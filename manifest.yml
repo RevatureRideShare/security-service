@@ -1,6 +1,6 @@
 applications:
 - name: rideshare-security-service
   instances: 1
-  memory: 780m
+  memory: 1000m
   path: target/security-service-0.0.1-SNAPSHOT.jar
   buildpack: http://github.com/cloudfoundry/java-buildpack
