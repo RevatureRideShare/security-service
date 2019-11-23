@@ -20,7 +20,7 @@
 		<sonar.projectKey>RevatureRideShare_security-service</sonar.projectKey>
 		<sonar.organization>b44ffadc-08d5-11ea-8d71-362b9e155667</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-		<sonar.login>e7fc8ebe205524ea60b1f2180548d7aa38867310</sonar.login>
+		<sonar.login>e5414efa457ddc8c1d3cca06572990af45f7c736</sonar.login>
 	</properties>
 
 	<dependencies>
