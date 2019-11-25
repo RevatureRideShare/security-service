@@ -8,7 +8,7 @@ pipeline {
   	}
   	
   	options{
-  		disableConcurentBuilds()
+  		disableConcurrentBuilds()
   		buildDiscarder(logRotator(numToKeepStr: '3'))
   	}
 
@@ -54,7 +54,6 @@ pipeline {
                 }
             }
         }
-        
     }
         
      post{
