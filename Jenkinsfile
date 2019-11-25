@@ -16,6 +16,9 @@ pipeline {
 
         stage ('Build') {
             steps {
+            
+            echo env.BRANCHNAME
+            
                 //withMaven(maven: 'maven_3_6_2') {
                     // Run in non-interactive (batch) mode
                 	sh 'mvn -B -DskipTests clean package'
@@ -54,7 +57,7 @@ pipeline {
         
         post{
         	always{
-        	
+        		 echo env.BRANCH_NAME
         	}
         }
 
