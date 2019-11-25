@@ -20,7 +20,7 @@
 		<sonar.projectKey>RevatureRideShare_security-service</sonar.projectKey>
 		<sonar.organization>b44ffadc-08d5-11ea-8d71-362b9e155667</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-		<sonar.login>340badd465c45fc9143aad944558100876dd1d58</sonar.login>
+		<sonar.login>b378e2c75969be34bd41cb0e8caef4aa400abf05</sonar.login>
 		<spring-cloud.version>Hoxton.RC1</spring-cloud.version>
 	</properties>
 
