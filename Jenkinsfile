@@ -3,7 +3,13 @@ pipeline {
     agent any
     
     triggers {
+    	
     	pollSCM('') // Enabling being build on Push
+  	}
+  	
+  	options{
+  		disableConcurentBuilds()
+  		buildDiscarder(logRotator(numToKeepStr: '3'))
   	}
 
     stages {
@@ -44,6 +50,12 @@ pipeline {
                     
                 }
             }
+        }
+        
+        post{
+        	always{
+        	
+        	}
         }
 
     }
