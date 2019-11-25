@@ -1,0 +1,22 @@
+server:
+  port: 8092
+
+spring:
+  application:
+    name: security-service
+  # Schema that the application assumes that the security table is in.
+  jpa:
+    properties:
+      hibernate:
+        default_schema: ${RIDESHARE_POSTGRES_1909_SCHEMA}
+  # Postgres DB location and login info.
+  datasource:
+    url: jdbc:postgresql://${RIDESHARE_POSTGRES_1909_URL}:5432/postgres?
+    username: ${RIDESHARE_POSTGRES_1909_USERNAME}
+    password: ${RIDESHARE_POSTGRES_1909_PASSWORD}
+
+eureka:
+  client:
+    registry-fetch-interval-seconds: 5
+    service-url:
+      defaultZone: http://localhost:8761/eureka  
