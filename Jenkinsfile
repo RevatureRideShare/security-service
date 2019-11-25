@@ -55,12 +55,11 @@ pipeline {
             }
         }
         
-        post{
-        	always{
-        		 echo env.BRANCH_NAME
-        	}
-        }
-
     }
-    
+        
+     post{
+       	always{
+        	echo env.BRANCH_NAME
+        }
+    }
 }
