@@ -76,6 +76,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // User can't have a role because they are creating a new user account.
         .antMatchers(HttpMethod.POST, "/security").permitAll()
 
+        // Hystrix-Dashboard microservice:
+        .antMatchers(HttpMethod.GET, "/actuator/hystrix.stream").permitAll()
+
         // Admin microservice:
         .antMatchers(HttpMethod.DELETE, "/user/*").hasRole("ADMIN")
         .antMatchers(HttpMethod.POST, "/admin").hasRole("ADMIN")
