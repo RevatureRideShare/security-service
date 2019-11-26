@@ -31,11 +31,20 @@ pipeline {
             	sh 'mvn verify checkstyle:checkstyle'
                	withSonarQubeEnv(credentialsId: 'b44ffadc-08d5-11ea-8d71-362b9e155667', installationName:'SonarCloud-java'){
                      sh ''' 
-                     	mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.0.1398:sonar 
+                     	mvn verify sonar:sonar
+                     	waitForQualityGate abortPipeline: true
                      '''
                 }
             }
         }
+        
+  		stage ('QualityGate') {
+  			steps{
+  				timeout(time: 1, unit: 'MINUTES'){
+  					waitForQualityGate abortPipeline: true
+  				}
+  			}
+  		}
         
         
         stage ('Deploy') {
