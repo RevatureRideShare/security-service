@@ -19,10 +19,9 @@ pipeline {
             
             deleteDir()
             checkout scm
-            sh 'mvn update'
             
                     // Run in non-interactive (batch) mode
-                sh 'mvn -B -DskipTests clean package'
+                sh 'mvn -U -B -DskipTests clean package'
             }
         }
 
