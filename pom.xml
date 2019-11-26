@@ -17,10 +17,6 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<sonar.projectKey>RevatureRideShare_security-service</sonar.projectKey>
-		<sonar.organization>b44ffadc-08d5-11ea-8d71-362b9e155667</sonar.organization>
-		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-		<sonar.login>b378e2c75969be34bd41cb0e8caef4aa400abf05</sonar.login>
 		<sonar.java.checkstyle.reportPaths>./target/checkstyle-result.xml</sonar.java.checkstyle.reportPaths>
 		<spring-cloud.version>Hoxton.RC1</spring-cloud.version>
 	</properties>
