@@ -1,10 +1,10 @@
 -- ENSURE THAT YOU RUN THIS IN THE CORRECT DATABASE AND SCHEMA.
-CREATE table security_table 
-(user_id integer not null,
-email text not null unique,
-password text not null,
-roles text,
-primary key (user_id))
+CREATE TABLE SECURITY 
+(USER_ID IDENTITY NOT NULL,
+EMAIL TEXT NOT NULL UNIQUE,
+PASSOWRD TEXT NOT NULL,
+ROLES TEXT,
+PRIMARY KEY (USER_ID))
 
 -- CONVIENIENCE STATEMENT FOR MINOR TABLE ALTERATIONS IF NECESSARY.
 --drop table "security";
