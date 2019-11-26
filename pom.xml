@@ -157,7 +157,6 @@
 	</dependencies>
 
 	<build>
-		<defaultgoal></defaultgoal>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
