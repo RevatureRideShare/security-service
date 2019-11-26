@@ -30,8 +30,10 @@ pipeline {
             steps {
             	sh 'mvn verify checkstyle:checkstyle'
                 withSonarQubeEnv(credentialsId: 'b44ffadc-08d5-11ea-8d71-362b9e155667', installationName:'SonarCloud-java'){
-                    'sonar-scanner \
-                    --Dsonar.sources=.'
+                     sh '''
+                    	sonar-scanner \
+                    	-Dsonar.sources=.'
+                     '''
                 }
             }
         }
