@@ -18,7 +18,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "security_table")
+@Table(name = "security")
 public class Security {
 
   //! This field is the primary key for Security objects persisted in the security table.
