@@ -29,10 +29,7 @@ pipeline {
         stage ('Test') {
             steps {
             	sh 'mvn verify checkstyle:checkstyle'
-               	withSonarQubeEnv(credentialsId: 'b44ffadc-08d5-11ea-8d71-362b9e155667', installationName:'SonarCloud-java'){
-                     sh ''' 
-                     	mvn verify sonar:sonar
-                     '''
+                sh 'mvn verify sonar:sonar'
                 }
             }
         }
