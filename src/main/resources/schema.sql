@@ -1,9 +1,9 @@
 -- ENSURE THAT YOU RUN THIS IN THE CORRECT DATABASE AND SCHEMA.
-CREATE TABLE SECURITY (
-user_id numeric(10,0) primary key,
-email text not null unique,
-password text not null,
-roles text
+CREATE TABLE `security` (
+`user_id` numeric(10,0) primary key,
+`email` text not null unique,
+`password` text not null,
+`roles` text
 )
 
 -- CONVIENIENCE STATEMENT FOR MINOR TABLE ALTERATIONS IF NECESSARY.
