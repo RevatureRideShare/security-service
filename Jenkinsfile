@@ -29,8 +29,20 @@ pipeline {
         stage ('Test') {
             steps {
             	sh 'mvn verify checkstyle:checkstyle'
-            	withSonarQubeEnv(credentialsId: 'b44ffadc-08d5-11ea-8d71-362b9e155667', installationName:'SonarCloud-java'){
-                	sh 'mvn verify sonar:sonar'
+            	withSonarQubeEnv(credentialsId: 'b44ffadc-08d5-11ea-8d71-362b9e155667', installationName:'SonarCloud'){
+                	sh '''
+                    export SONAR_SCANNER_VERSION=4.2.0.1873
+                    export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
+                    export PATH=$SONAR_SCANNER_HOME/bin:$PATH
+                    export SONAR_SCANNER_OPTS="-server"
+                    
+                    sonar-scanner \
+                    -Dsonar.projectKey=RevatureRideShare_security-service \
+                    -Dsonar.organization=b44ffadc-08d5-11ea-8d71-362b9e155667 \
+                    -Dsonar.sources=. \
+                    -Dsonar.host.url=https://sonarcloud.io/ \
+                    -Dsonar.login=f13453caf6dccc2ca1b0957363483278a174f20b 
+                    '''
                 }
             }
         }
