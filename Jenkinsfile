@@ -18,7 +18,7 @@ pipeline {
             steps {
             
             deleteDir()
-            checkout csm
+            checkout scm
             
                     // Run in non-interactive (batch) mode
                 sh 'mvn -B -DskipTests clean package'
