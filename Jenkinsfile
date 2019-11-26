@@ -28,16 +28,9 @@ pipeline {
 
         stage ('Test') {
             steps {
-                withSonarQubeEnv(credentialsId: 'b44ffadc-08d5-11ea-8d71-362b9e155667', installationName:'SonarCloud'){
+                withSonarQubeEnv(credentialsId: 'b44ffadc-08d5-11ea-8d71-362b9e155667', installationName:'SonarCloud-java'){
                 	sh 'mvn verify checkstyle:checkstyle'
-                    sh '''
-                    export SONAR_SCANNER_VERSION=4.2.0.1873
-                    export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
-                    export PATH=$SONAR_SCANNER_HOME/bin:$PATH
-                    export SONAR_SCANNER_OPTS="-server"
-                    sonar-scanner \
-                    -Dsonar.sources=. \
-                    '''
+                    sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.0.1398:sonar'
                 }
             }
         }
