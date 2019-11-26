@@ -28,7 +28,7 @@ pipeline {
         stage ('Test') {
             steps {
             	sh 'mvn test'
-                //sh 'mvn verify sonar:sonar'
+                sh 'mvn verify sonar:sonar'
             }
         }
         
