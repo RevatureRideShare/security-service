@@ -32,7 +32,7 @@ pipeline {
                 withSonarQubeEnv(credentialsId: 'b44ffadc-08d5-11ea-8d71-362b9e155667', installationName:'SonarCloud-java'){
                      sh '''
                     	sonar-scanner \
-                    	-Dsonar.sources=.'
+                    	-Dsonar.sources=.
                      '''
                 }
             }
