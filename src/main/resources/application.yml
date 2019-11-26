@@ -5,11 +5,10 @@ server:
 spring:
   # Schema that the application assumes that the security table is in.
   jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
     properties:
       hibernate:
         default_schema: ${RIDESHARE_POSTGRES_1909_SCHEMA}
-        
-        database-platform: org.hibernate.dialect.H2Dialect
   # Postgres DB location and login info.
   datasource:
     #url: jdbc:postgresql://${RIDESHARE_POSTGRES_1909_URL}:5432/postgres?
