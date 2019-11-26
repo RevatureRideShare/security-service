@@ -37,11 +37,7 @@ pipeline {
                     export SONAR_SCANNER_OPTS="-server"
                     
                     sonar-scanner \
-                    -Dsonar.projectKey=RevatureRideShare_security-service \
-                    -Dsonar.organization=b44ffadc-08d5-11ea-8d71-362b9e155667 \
                     -Dsonar.sources=. \
-                    -Dsonar.host.url=https://sonarcloud.io/ \
-                    -Dsonar.login=f13453caf6dccc2ca1b0957363483278a174f20b 
                     '''
                 }
             }
