@@ -18,6 +18,7 @@ pipeline {
             steps {
             
             deleteDir()
+            checkout csm
             
                     // Run in non-interactive (batch) mode
                 sh 'mvn -B -DskipTests clean package'
@@ -28,7 +29,7 @@ pipeline {
         stage ('Test') {
             steps {
             	sh 'mvn verify checkstyle:checkstyle'
-            	sh 'mvn verify checkstyle:check'
+            	sh 'mvn verify checkstyle:check -c /google_checks.xml'
                 sh 'mvn verify sonar:sonar'
                 sh 'mvn test'
             }
