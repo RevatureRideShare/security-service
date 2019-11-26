@@ -34,6 +34,7 @@ pipeline {
                     sonar-scanner \
                     -Dsonar.sources=. \
                     '''
+                }
             }
         }
         
