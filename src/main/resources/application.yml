@@ -1,9 +1,3 @@
-spring.datasource.url: jdbc:h2:mem:testdb
-spring.datasource.driverClassName: org.h2.Driver
-spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
-
-spring.h2.console.enabled: true
-
 server:
   #8092
   port: ${PORT}
@@ -14,8 +8,14 @@ spring:
     properties:
       hibernate:
         default_schema: ${RIDESHARE_POSTGRES_1909_SCHEMA}
+        
+        database-platform: org.hibernate.dialect.H2Dialect
   # Postgres DB location and login info.
   datasource:
-    url: jdbc:postgresql://${RIDESHARE_POSTGRES_1909_URL}:5432/postgres?
+    #url: jdbc:postgresql://${RIDESHARE_POSTGRES_1909_URL}:5432/postgres?
     username: ${RIDESHARE_POSTGRES_1909_USERNAME}
     password: ${RIDESHARE_POSTGRES_1909_PASSWORD}
+    
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    
