@@ -28,9 +28,8 @@ pipeline {
 
         stage ('Test') {
             steps {
-            	sh 'mvn verify checkstyle:checkstyle'
             	sh 'mvn verify checkstyle:check'
-                sh 'mvn verify sonar:sonar'
+                sh 'mvn verify sonar:sonar checkstyle:checkstyle'
                 sh 'mvn test'
             }
         }
