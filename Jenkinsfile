@@ -17,7 +17,7 @@ pipeline {
         stage ('Build') {
             steps {
             
-            echo env.BRANCHNAME
+            echo env.BRANCH_NAME
             
                     // Run in non-interactive (batch) mode
                 sh 'mvn -B -DskipTests clean package'
@@ -27,8 +27,10 @@ pipeline {
 
         stage ('Test') {
             steps {
-            	sh 'mvn test'
+            	sh 'mvn verify checkstyle:checkstyle'
+            	sh 'mvn verify checkstyle:check'
                 sh 'mvn verify sonar:sonar'
+                sh 'mvn test'
             }
         }
         
@@ -52,7 +54,7 @@ pipeline {
         
      post{
        	always{
-        	echo env.BRANCH_NAME
+        	deleteDir()
         }
     }
 }
