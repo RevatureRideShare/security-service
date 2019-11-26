@@ -30,7 +30,6 @@ pipeline {
             steps {
             	sh 'mvn verify checkstyle:checkstyle'
                 sh 'mvn verify sonar:sonar'
-                }
             }
         }
         
