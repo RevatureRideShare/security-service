@@ -2,6 +2,7 @@ package com.revature;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 /**
  * SecurityServiceApplication is a class that is designed to act as the container for the main
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  */
 @SpringBootApplication
+@EnableEurekaClient
 public class SecurityServiceApplication {
 
   //! The main method exists to hold the SpringApplication.run command that runs the Spring Boot

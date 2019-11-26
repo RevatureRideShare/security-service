@@ -46,7 +46,6 @@ public class SecurityService {
     return responseSecurity;
   }
 
-
   /**
    * The createAdminSecurity method is used when registering a new admin. It creates the Security
    * object that gets persisted in the security table. The method takes in a Security object that

@@ -3,6 +3,8 @@ server:
   port: ${PORT}
 
 spring:
+  application:
+    name: security-service
   # Schema that the application assumes that the security table is in.
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
@@ -14,7 +16,12 @@ spring:
     #url: jdbc:postgresql://${RIDESHARE_POSTGRES_1909_URL}:5432/postgres?
     username: ${RIDESHARE_POSTGRES_1909_USERNAME}
     password: ${RIDESHARE_POSTGRES_1909_PASSWORD}
-    
     url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
-    
+
+eureka:
+  client:
+    registry-fetch-interval-seconds: 5
+    service-url:
+      defaultZone: http://localhost:8761/eureka  
+      

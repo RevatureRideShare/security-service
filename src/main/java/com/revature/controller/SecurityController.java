@@ -97,6 +97,12 @@ public class SecurityController {
     }
   }
 
+  // Hystrix-Dashboard microservice:
+  @GetMapping("/actuator/hystrix.stream")
+  public String getHystrix() {
+    return "Success";
+  }
+
   // Admin microservice:
   //! Method for authorizing deleting users from the user table in the user microservice.
   //! Security objects in the security table are never deleted for record keeping purposes.
