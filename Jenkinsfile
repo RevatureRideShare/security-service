@@ -28,8 +28,12 @@ pipeline {
 
         stage ('Test') {
             steps {
-                sh 'mvn verify checkstyle:checkstyle sonar:sonar'
-                
+                withSonarQubeEnv(credentialsId: 'b44ffadc-08d5-11ea-8d71-362b9e155667', installationName:'SonarCloud'){
+                	sh 'mvn verify checkstyle:checkstyle sonar:sonar'
+                    sh '''
+                    sonar-scanner \
+                    -Dsonar.sources=. \
+                    '''
             }
         }
         
