@@ -29,6 +29,7 @@ pipeline {
         stage ('Test') {
             steps {
             	sh 'mvn verify checkstyle:checkstyle'
+            	sh 'mvn clean'
             	withSonarQubeEnv(credentialsId: 'b44ffadc-08d5-11ea-8d71-362b9e155667', installationName:'SonarCloud'){
                 	sh '''
                     export SONAR_SCANNER_VERSION=4.2.0.1873
@@ -41,7 +42,8 @@ pipeline {
                     -Dsonar.organization=b44ffadc-08d5-11ea-8d71-362b9e155667 \
                     -Dsonar.sources=. \
                     -Dsonar.host.url=https://sonarcloud.io/ \
-                    -Dsonar.login=f13453caf6dccc2ca1b0957363483278a174f20b 
+                    -Dsonar.login=f13453caf6dccc2ca1b0957363483278a174f20b \
+                    -Dsonar.java.binaries=**/target/classes
                     '''
                 }
             }
