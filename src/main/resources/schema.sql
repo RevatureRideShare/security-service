@@ -1,6 +1,6 @@
 -- ENSURE THAT YOU RUN THIS IN THE CORRECT DATABASE AND SCHEMA.
 CREATE table security_table 
-(user_id int not null,
+(user_id integer not null,
 email text not null unique,
 password text not null,
 roles text,
