@@ -1,6 +1,6 @@
 -- ENSURE THAT YOU RUN THIS IN THE CORRECT DATABASE AND SCHEMA.
 CREATE TABLE SECURITY (
-user_id serial primary key,
+user_id numeric(10,0) primary key,
 email text not null unique,
 password text not null,
 roles text
