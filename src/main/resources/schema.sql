@@ -1,6 +1,6 @@
 -- ENSURE THAT YOU RUN THIS IN THE CORRECT DATABASE AND SCHEMA.
 CREATE TABLE `security` (
-`user_id` numeric(10,0) primary key,
+`user_id` integer primary key AUTO_INCREMENT,
 `email` text not null unique,
 `password` text not null,
 `roles` text
