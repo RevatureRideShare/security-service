@@ -1,5 +1,5 @@
 -- ENSURE THAT YOU RUN THIS IN THE CORRECT DATABASE AND SCHEMA.
-CREATE TABLE SECURITY (user_id identity primary key, email text not null unique, password text not null, roles text)
+CREATE TABLE SECURITY (user_id identity primary key, email varchar(50) not null unique, password varchar(50) not null, roles text)
 
 -- CONVIENIENCE STATEMENT FOR MINOR TABLE ALTERATIONS IF NECESSARY.
 --drop table "security";
