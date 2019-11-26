@@ -17,7 +17,7 @@ pipeline {
         stage ('Build') {
             steps {
             
-            echo env.BRANCH_NAME
+            deleteDir()
             
                     // Run in non-interactive (batch) mode
                 sh 'mvn -B -DskipTests clean package'
