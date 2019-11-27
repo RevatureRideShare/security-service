@@ -46,20 +46,6 @@ pipeline {
                 }
             }
         }
-
-        stage ('Code Coverage') { // JaCoCo
-  			steps{
-                step([$class: 'JacocoPublisher',
-                    execPattern: 'target/jacoco-report.exec',
-                    classPattern: 'target/classes',
-                    inclusionPattern: 'src/main/java/com/revature/controller*,src/main/java/com/revature/service*',
-                    exclusionPattern: 'src/test*',
-                    changeBuildStatus: true,
-
-                ])
-
-  			}
-  		}
         
   		stage ('QualityGate') {
   			steps{
