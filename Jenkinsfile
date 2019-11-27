@@ -52,9 +52,8 @@ pipeline {
                 jacoco( 
                     execPattern: 'target/*.exec',
                     classPattern: 'target/classes',
-                    sourcePattern: 'src/main/java/com/revature/',
+                    sourcePattern: 'src/main/java/com/revature/controller', 'src/main/java/com/revature/service',
                     exclusionPattern: 'src/test*',
-                    exclusionPattern: 'src/main/java/com/revature/bean',
                     changeBuildStatus: true,
                     minimumMethodCoverag: 100,
                     maximumMethodCoverage: 100,
