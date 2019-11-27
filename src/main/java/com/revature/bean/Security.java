@@ -77,13 +77,11 @@ public class Security {
   /**
    * This constructor is for adding new users where the role is the default ("USER").
    * 
-   * @param userID Primary key of the user object in the table. Can be zero.
    * @param email Email of the user.
    * @param password Password of the user.
    */
-  public Security(int userID, String email, String password) {
+  public Security(String email, String password) {
     super();
-    this.userID = userID;
     this.email = email;
     this.password = password;
   }

@@ -1,8 +1,14 @@
 package com.revature.controller;
 
+import com.revature.bean.RegisterDto;
 import com.revature.bean.Security;
 import com.revature.repository.SecurityRepository;
 import com.revature.service.SecurityService;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import javax.ws.rs.HttpMethod;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -121,15 +127,34 @@ public class SecurityController {
    * the response body if the user is allowed to perform the operation, returns a 403 status code if
    * the user isn't allowed to perform the operation.
    * 
-   * @param security The security object passed in through the request when a new administrator is
-   *        made.
-   * @return
+   * @return Returns a response entity with a status code based on whether the operation was
+   *         successful or not.
    */
   @PostMapping("/admin")
-  public ResponseEntity createAdmin(@RequestBody Security security) {
+  public ResponseEntity createAdmin(@RequestBody RegisterDto registerDto) {
+    System.out.println(registerDto);
+    String host = "localhost";
+    String port = "8090";
     try {
+      Security security =
+          new Security(registerDto.getUserDto().getEmail(), registerDto.getPassword());
       securityService.createAdminSecurity(security);
-      return new ResponseEntity(HttpStatus.OK);
+      // Opening new HTTP Request to the admin service to have it create a new admin.
+      URL obj;
+      obj = new URL("HTTP://" + host + ":" + port + "/user");
+      HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+      con.setRequestMethod(HttpMethod.POST);
+      int responseCode = con.getResponseCode();
+      if (responseCode == HttpURLConnection.HTTP_OK) {
+        // If the response code is an "OK".
+        // Print the response. 
+        System.out.println("User response was Ok.");
+        return new ResponseEntity(HttpStatus.OK);
+      } else {
+        // If the response was not an "OK", print the response code and tell the user.
+        System.out.println("Request did not work. Status Code: " + responseCode);
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+      }
     } catch (Exception e) {
       return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
@@ -153,15 +178,37 @@ public class SecurityController {
    * Returns a 200 status code with "Success" in the response body if the user is allowed to perform
    * the operation, returns a 403 status code if the user isn't allowed to perform the operation.
    * 
-   * @param security The security object passed in through the request when a new user is
-   *        registered.
-   * @return
+   * @return Returns a response entity with a status code based on whether the operation was
+   *         successful or not.
    */
   @PostMapping("/user")
-  public ResponseEntity createUser(@RequestBody Security security) {
+  public ResponseEntity createUser(@RequestBody RegisterDto registerDto) {
+    System.out.println(registerDto);
+    String host = "localhost";
+    String port = "8090";
     try {
+      // Creating new security object in the database.
+      Security security =
+          new Security(registerDto.getUserDto().getEmail(), registerDto.getPassword());
       securityService.createUserSecurity(security);
-      return new ResponseEntity(HttpStatus.OK);
+
+      // Opening new HTTP Request to the user service to have it create a new user.
+      URL obj;
+      obj = new URL("HTTP://" + host + ":" + port + "/user");
+      HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+      con.setRequestMethod(HttpMethod.POST);
+      int responseCode = con.getResponseCode();
+      if (responseCode == HttpURLConnection.HTTP_OK) {
+        // If the response code is an "OK".
+        // Print the response. 
+        System.out.println("User response was Ok.");
+        return new ResponseEntity(HttpStatus.OK);
+      } else {
+        // If the response was not an "OK", print the response code and tell the user.
+        System.out.println("Request did not work. Status Code: " + responseCode);
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+      }
+
     } catch (Exception e) {
       return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }

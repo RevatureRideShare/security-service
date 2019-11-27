@@ -7,7 +7,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.bean.Login;
 import com.revature.bean.UserPrincipal;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -15,6 +20,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.HttpMethod;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -79,8 +85,43 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   @Override
   protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
       FilterChain chain, Authentication authResult) throws IOException, ServletException {
+
+    String host = "localhost";
+    String port = "8090";
+
     // Getting currently logged in user.
     UserPrincipal userPrincipal = (UserPrincipal) authResult.getPrincipal();
+
+    // Opening new HTTP Request to the user service to have it get the correct user.
+    URL obj;
+    obj = new URL("HTTP://" + host + ":" + port + "/user/" + userPrincipal.getUsername());
+    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+    con.setRequestMethod(HttpMethod.GET);
+
+    // Getting response.
+    int responseCode = con.getResponseCode();
+    if (responseCode == HttpURLConnection.HTTP_OK) {
+      // If the response code is an "OK".
+      // Print the response. 
+      System.out.println("User response was Ok.");
+
+      // Add response body of the user response to the security response.
+      BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));
+      StringBuilder sb = new StringBuilder();
+      String output;
+      while ((output = br.readLine()) != null) {
+        System.out.println(output);
+        sb.append(output);
+      }
+      PrintWriter bodyWriter = response.getWriter();
+      bodyWriter.write(sb.toString());
+      bodyWriter.flush();
+
+    } else {
+      // If the response was not an "OK", print the response code and tell the user.
+      System.out.println("Request did not work. Status Code: " + responseCode);
+      response.setStatus(responseCode);
+    }
 
     // Creating JWT token.
     String token = JWT.create().withSubject(userPrincipal.getUsername())
