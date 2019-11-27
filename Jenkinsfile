@@ -54,7 +54,7 @@ pipeline {
                     classPattern: 'target/classes',
                     sourcePattern: 'src/main/java/com/revature/',
                     exclusionPattern: 'src/test*',
-                    exclusionPattern: 'src/main/java/com/revature/bean'
+                    exclusionPattern: 'src/main/java/com/revature/bean',
                     changeBuildStatus: true,
                     minimumMethodCoverag: 100,
                     maximumMethodCoverage: 100,
