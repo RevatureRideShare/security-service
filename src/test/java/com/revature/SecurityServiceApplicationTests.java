@@ -1,16 +1,18 @@
 package com.revature;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class SecurityServiceApplicationTests {
 
-  @Test
-  void myTest() {
-    assertTrue(true);
-  }
+  //  @Test
+  //  void myTest() {
+  //    assertTrue(true);
+  //  }
 
+  @Test
+  void contextLoads() {
+
+  }
 }
