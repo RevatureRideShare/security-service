@@ -53,7 +53,7 @@ pipeline {
                     execPattern: 'target/*.exec',
                     classPattern: 'target/classes',
                     sourcePattern: 'src/main/java/com/revature/controller',
-                    sourcePattern: 'src/main/java/com.revature/service'
+                    sourcePattern: 'src/main/java/com.revature/service',
                     exclusionPattern: 'src/test*',
                     changeBuildStatus: true,
                     minimumMethodCoverag: 100,
