@@ -50,7 +50,7 @@ pipeline {
         stage ('Code Coverage') { // JaCoCo
   			steps{
                 step([$class: 'JacocoPublisher',
-                     execPattern: 'target/*.exec',
+                    execPattern: 'target/jacoco-report.exec',
                     classPattern: 'target/classes',
                     sourcePattern: 'src/main/java/com/revature/controller,src/main/java/com/revature/service',
                     exclusionPattern: 'src/test*',
@@ -60,6 +60,7 @@ pipeline {
                     minimumBranchCoverage: '100',
                     maximumBranchCoverage: '100' 
                 ])
+
   			}
   		}
         
