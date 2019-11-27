@@ -49,17 +49,17 @@ pipeline {
 
         stage ('Code Coverage') { // JaCoCo
   			steps{
-                jacoco( 
-                    execPattern: 'target/*.exec',
+                step([$class: 'JacocoPublisher',
+                     execPattern: 'target/*.exec',
                     classPattern: 'target/classes',
-                    sourcePattern: 'src/main/java/com/revature',
-                    exclusionPattern: ('src/test*'):('src/main/java/com/revature/bean'),
+                    sourcePattern: 'src/main/java/com/revature/controller','src/main/java/com/revature/service'
+                    exclusionPattern: 'src/test*',
                     changeBuildStatus: true,
                     minimumMethodCoverag: 100,
                     maximumMethodCoverage: 100,
                     minimumBranchCoverage: 100,
-                    maximumBranchCoverage: 100
-                )
+                    maximumBranchCoverage: 100 
+                ])
   			}
   		}
         
