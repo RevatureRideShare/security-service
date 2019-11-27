@@ -52,7 +52,7 @@ pipeline {
                 step([$class: 'JacocoPublisher',
                     execPattern: 'target/jacoco-report.exec',
                     classPattern: 'target/classes',
-                    //sourcePattern: 'src/main/java/com/revature/controller,src/main/java/com/revature/service',
+                    inclusionPattern: 'src/main/java/com/revature/controller,src/main/java/com/revature/service',
                     exclusionPattern: 'src/test*',
                     changeBuildStatus: true,
                     minimumMethodCoverage: '100',
