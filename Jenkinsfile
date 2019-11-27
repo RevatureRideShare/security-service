@@ -3,7 +3,6 @@ pipeline {
     agent any
     
     triggers {
-    	
     	pollSCM('') // Enabling being build on Push
   	}
   	
@@ -16,15 +15,15 @@ pipeline {
 
         stage ('Build') {
             steps {
-            
-            deleteDir()
-            checkout scm
-            
-                    // Run in non-interactive (batch) mode
+                
+                deleteDir()
+                checkout scm
+                
+                // Run in non-interactive (batch) mode
                 sh 'mvn -U -B -DskipTests clean package'
+            
             }
         }
-
 
         stage ('Test') {
             steps {
@@ -47,6 +46,17 @@ pipeline {
                 }
             }
         }
+
+        stage ('Code Coverage') { // JaCoCo
+  			steps{
+                jacoco( 
+                    execPattern: 'target/*.exec',
+                    classPattern: 'target/classes',
+                    sourcePattern: 'src/main/java',
+                    exclusionPattern: 'src/test*'
+                )
+  			}
+  		}
         
   		stage ('QualityGate') {
   			steps{
@@ -68,7 +78,6 @@ pipeline {
                     sh 'cf login -a http://api.run.pivotal.io -u $USERNAME -p $PASSWORD \
                     -o "Revature Training" -s development'
                     sh 'cf push'
-                    
                 }
             }
         }
