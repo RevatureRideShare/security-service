@@ -55,10 +55,10 @@ pipeline {
                     sourcePattern: 'src/main/java/com/revature/controller,src/main/java/com/revature/service',
                     exclusionPattern: 'src/test*',
                     changeBuildStatus: true,
-                    minimumMethodCoverag: 100,
-                    maximumMethodCoverage: 100,
-                    minimumBranchCoverage: 100,
-                    maximumBranchCoverage: 100 
+                    minimumMethodCoverag: '100',
+                    maximumMethodCoverage: '100',
+                    minimumBranchCoverage: '100',
+                    maximumBranchCoverage: '100' 
                 ])
   			}
   		}
