@@ -1,10 +1,13 @@
 package com.revature.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.bean.RegisterDto;
 import com.revature.bean.Security;
 import com.revature.repository.SecurityRepository;
 import com.revature.service.SecurityService;
 
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -195,14 +198,36 @@ public class SecurityController {
       // Opening new HTTP Request to the user service to have it create a new user.
       URL obj;
       obj = new URL("HTTP://" + host + ":" + port + "/user");
+      System.out.println("HTTP://" + host + ":" + port + "/user");
       HttpURLConnection con = (HttpURLConnection) obj.openConnection();
       con.setRequestMethod(HttpMethod.POST);
+
+      // Turning UserDto into JSON.
+      ObjectMapper om = new ObjectMapper();
+      String userDtoOut = om.writeValueAsString(registerDto.getUserDto());
+      System.out.println(userDtoOut);
+
+      // Attach the correct body to the request.
+      con.setDoOutput(true);
+      con.setRequestProperty("Content-Type", "application/json; utf-8");
+
+      // Sending HTTP Request.
+      OutputStream os = con.getOutputStream();
+      OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+      osw.write(userDtoOut);
+      System.out.println("Wrote JSON to request body.");
+      osw.flush();
+      osw.close();
+      os.close();
+      System.out.println("Closed streams.");
+
+      // Reading response.
       int responseCode = con.getResponseCode();
-      if (responseCode == HttpURLConnection.HTTP_OK) {
+      if (responseCode == HttpURLConnection.HTTP_CREATED) {
         // If the response code is an "OK".
-        // Print the response. 
-        System.out.println("User response was Ok.");
-        return new ResponseEntity(HttpStatus.OK);
+        // Print the response code. 
+        System.out.println("Request was successful. Status Code: " + responseCode + ".");
+        return new ResponseEntity(HttpStatus.CREATED);
       } else {
         // If the response was not an "OK", print the response code and tell the user.
         System.out.println("Request did not work. Status Code: " + responseCode);
@@ -210,6 +235,7 @@ public class SecurityController {
       }
 
     } catch (Exception e) {
+      e.printStackTrace();
       return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
   }
