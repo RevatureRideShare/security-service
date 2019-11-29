@@ -6,6 +6,8 @@ import com.revature.bean.Security;
 import com.revature.repository.SecurityRepository;
 import com.revature.service.SecurityService;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -227,7 +229,18 @@ public class SecurityController {
         // If the response code is an "OK".
         // Print the response code. 
         System.out.println("Request was successful. Status Code: " + responseCode + ".");
-        return new ResponseEntity(HttpStatus.CREATED);
+
+        // Get and print the response body.
+        BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));
+        StringBuilder sb = new StringBuilder();
+        String output;
+        while ((output = br.readLine()) != null) {
+          sb.append(output);
+        }
+        System.out.println(sb);
+
+        // Attach the response body to the response entity.
+        return new ResponseEntity(sb, HttpStatus.CREATED);
       } else {
         // If the response was not an "OK", print the response code and tell the user.
         System.out.println("Request did not work. Status Code: " + responseCode);
