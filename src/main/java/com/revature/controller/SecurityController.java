@@ -1,8 +1,12 @@
 package com.revature.controller;
 
+import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
+
+import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.bean.RegisterDto;
 import com.revature.bean.Security;
+import com.revature.jwt.JwtProperties;
 import com.revature.repository.SecurityRepository;
 import com.revature.service.SecurityService;
 
@@ -12,9 +16,11 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
 
 import javax.ws.rs.HttpMethod;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -197,6 +203,15 @@ public class SecurityController {
           new Security(registerDto.getUserDto().getEmail(), registerDto.getPassword());
       securityService.createUserSecurity(security);
 
+      // Creating the new JWT.
+      String token = JWT.create().withSubject(registerDto.getUserDto().getEmail())
+          .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
+          .sign(HMAC512(JwtProperties.SECRET.getBytes()));
+
+      // Adding JWT token in the response header.
+      HttpHeaders headers = new HttpHeaders();
+      headers.add(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + token);
+
       // Opening new HTTP Request to the user service to have it create a new user.
       URL obj;
       obj = new URL("HTTP://" + host + ":" + port + "/user");
@@ -240,7 +255,7 @@ public class SecurityController {
         System.out.println(sb);
 
         // Attach the response body to the response entity.
-        return new ResponseEntity(sb, HttpStatus.CREATED);
+        return new ResponseEntity(sb, headers, HttpStatus.CREATED);
       } else {
         // If the response was not an "OK", print the response code and tell the user.
         System.out.println("Request did not work. Status Code: " + responseCode);

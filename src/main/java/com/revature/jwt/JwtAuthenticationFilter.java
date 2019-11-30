@@ -92,35 +92,41 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     // Getting currently logged in user.
     UserPrincipal userPrincipal = (UserPrincipal) authResult.getPrincipal();
 
-    // Opening new HTTP Request to the user service to have it get the correct user.
-    URL obj;
-    obj = new URL("HTTP://" + host + ":" + port + "/user/" + userPrincipal.getUsername());
-    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-    con.setRequestMethod(HttpMethod.GET);
+    try {
 
-    // Getting response.
-    int responseCode = con.getResponseCode();
-    if (responseCode == HttpURLConnection.HTTP_OK) {
-      // If the response code is an "OK".
-      // Print the response. 
-      System.out.println("User response was Ok.");
+      // Opening new HTTP Request to the user service to have it get the correct user.
+      URL obj;
+      obj = new URL("HTTP://" + host + ":" + port + "/user/" + userPrincipal.getUsername());
+      HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+      con.setRequestMethod(HttpMethod.GET);
 
-      // Add response body of the user response to the security response.
-      BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));
-      StringBuilder sb = new StringBuilder();
-      String output;
-      while ((output = br.readLine()) != null) {
-        System.out.println(output);
-        sb.append(output);
+      // Getting response.
+      int responseCode = con.getResponseCode();
+      if (responseCode == HttpURLConnection.HTTP_OK) {
+        // If the response code is an "OK".
+        // Print the response. 
+        System.out.println("User response was Ok.");
+
+        // Add response body of the user response to the security response.
+        BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));
+        StringBuilder sb = new StringBuilder();
+        String output;
+        while ((output = br.readLine()) != null) {
+          System.out.println(output);
+          sb.append(output);
+        }
+        PrintWriter bodyWriter = response.getWriter();
+        bodyWriter.write(sb.toString());
+        bodyWriter.flush();
+
+      } else {
+        // If the response was not an "OK", print the response code and tell the user.
+        System.out.println("Request did not work. Status Code: " + responseCode);
+        response.setStatus(responseCode);
       }
-      PrintWriter bodyWriter = response.getWriter();
-      bodyWriter.write(sb.toString());
-      bodyWriter.flush();
 
-    } else {
-      // If the response was not an "OK", print the response code and tell the user.
-      System.out.println("Request did not work. Status Code: " + responseCode);
-      response.setStatus(responseCode);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
     // Creating JWT token.
