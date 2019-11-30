@@ -104,12 +104,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // Location microservice:
         // Housing location controller methods:
         .antMatchers(HttpMethod.POST, "/housing-location").hasRole("ADMIN")
-        .antMatchers(HttpMethod.GET, "/housing-location").hasRole("USER")
+        .antMatchers(HttpMethod.GET, "/housing-location").permitAll()
         .antMatchers(HttpMethod.GET, "/housing-location/{training-location}/housing-location")
         .hasRole("USER")
         // Training location controller methods:
         .antMatchers(HttpMethod.POST, "/training-location").hasRole("ADMIN")
-        .antMatchers(HttpMethod.GET, "/training-location").hasRole("USER")
+        .antMatchers(HttpMethod.GET, "/training-location").permitAll()
 
         // End of statement.
         .anyRequest().authenticated();
