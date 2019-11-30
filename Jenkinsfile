@@ -1,9 +1,7 @@
 pipeline {
 
     agent any
-
-discordSend description: "Jenkins Pipeline Build", footer: "Footer Text", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, webhookURL: "Webhook URL"
-    
+       
     triggers {
     	pollSCM('') // Enabling being build on Push
   	}
