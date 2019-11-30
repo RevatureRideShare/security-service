@@ -107,6 +107,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         // Print the response. 
         System.out.println("User response was Ok.");
 
+        // Creating JWT token.
+        String token = JWT.create().withSubject(userPrincipal.getUsername())
+            .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
+            .sign(HMAC512(JwtProperties.SECRET.getBytes()));
+
+        // Adding JWT token in the response header.
+        response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + token);
+
         // Add response body of the user response to the security response.
         BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));
         StringBuilder sb = new StringBuilder();
@@ -129,13 +137,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
       e.printStackTrace();
     }
 
-    // Creating JWT token.
-    String token = JWT.create().withSubject(userPrincipal.getUsername())
-        .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
-        .sign(HMAC512(JwtProperties.SECRET.getBytes()));
-
-    // Adding JWT token in the response header.
-    response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + token);
   }
 
 }
