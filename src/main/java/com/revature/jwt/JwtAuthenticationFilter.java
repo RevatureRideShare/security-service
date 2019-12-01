@@ -7,14 +7,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.bean.Login;
 import com.revature.bean.UserPrincipal;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.HttpMethod;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -79,16 +87,113 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   @Override
   protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
       FilterChain chain, Authentication authResult) throws IOException, ServletException {
+
+    String host = "localhost";
+    String userPort = "8090";
+    String adminPort = "8091";
+
     // Getting currently logged in user.
     UserPrincipal userPrincipal = (UserPrincipal) authResult.getPrincipal();
+    Set<String> roles =
+        authResult.getAuthorities().stream().map(r -> r.getAuthority()).collect(Collectors.toSet());
+    System.out.println("Authorities: " + roles);
 
-    // Creating JWT token.
-    String token = JWT.create().withSubject(userPrincipal.getUsername())
-        .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
-        .sign(HMAC512(JwtProperties.SECRET.getBytes()));
+    if (roles.contains("ROLE_ADMIN")) {
+      System.out.println("Test Admin.");
 
-    // Adding JWT token in the response header.
-    response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + token);
+      try {
+        // Opening new HTTP Request to the user service to have it get the correct user.
+        URL obj;
+        obj = new URL("HTTP://" + host + ":" + adminPort + "/admin/" + userPrincipal.getUsername());
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod(HttpMethod.GET);
+
+        // Getting response.
+        int responseCode = con.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+          // If the response code is an "OK".
+          // Print the response. 
+          System.out.println("User response was Ok.");
+
+          // Creating JWT token.
+          String token = JWT.create().withSubject(userPrincipal.getUsername())
+              .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
+              .sign(HMAC512(JwtProperties.SECRET.getBytes()));
+
+          // Adding JWT token in the response header.
+          response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + token);
+
+          // Add response body of the user response to the security response.
+          BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));
+          StringBuilder sb = new StringBuilder();
+          String output;
+          while ((output = br.readLine()) != null) {
+            System.out.println(output);
+            sb.append(output);
+          }
+          PrintWriter bodyWriter = response.getWriter();
+          bodyWriter.write(sb.toString());
+          bodyWriter.flush();
+
+        } else {
+          // If the response was not an "OK", print the response code and tell the user.
+          System.out.println("Request did not work. Status Code: " + responseCode);
+          response.setStatus(responseCode);
+        }
+
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    } else if (roles.contains("ROLE_USER")) {
+      System.out.println("Test User.");
+
+      try {
+        // Opening new HTTP Request to the user service to have it get the correct user.
+        URL obj;
+        obj = new URL("HTTP://" + host + ":" + userPort + "/user/" + userPrincipal.getUsername());
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod(HttpMethod.GET);
+
+        // Getting response.
+        int responseCode = con.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+          // If the response code is an "OK".
+          // Print the response. 
+          System.out.println("User response was Ok.");
+
+          // Creating JWT token.
+          String token = JWT.create().withSubject(userPrincipal.getUsername())
+              .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
+              .sign(HMAC512(JwtProperties.SECRET.getBytes()));
+
+          // Adding JWT token in the response header.
+          response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + token);
+
+          // Add response body of the user response to the security response.
+          BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));
+          StringBuilder sb = new StringBuilder();
+          String output;
+          while ((output = br.readLine()) != null) {
+            System.out.println(output);
+            sb.append(output);
+          }
+          PrintWriter bodyWriter = response.getWriter();
+          bodyWriter.write(sb.toString());
+          bodyWriter.flush();
+
+        } else {
+          // If the response was not an "OK", print the response code and tell the user.
+          System.out.println("Request did not work. Status Code: " + responseCode);
+          response.setStatus(responseCode);
+        }
+
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    } else {
+      System.out.println("User has no roles.");
+    }
+
   }
 
 }

@@ -1,9 +1,26 @@
 package com.revature.controller;
 
+import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
+
+import com.auth0.jwt.JWT;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.bean.RegisterDto;
 import com.revature.bean.Security;
+import com.revature.jwt.JwtProperties;
 import com.revature.repository.SecurityRepository;
 import com.revature.service.SecurityService;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Date;
+
+import javax.ws.rs.HttpMethod;
+
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -121,15 +138,34 @@ public class SecurityController {
    * the response body if the user is allowed to perform the operation, returns a 403 status code if
    * the user isn't allowed to perform the operation.
    * 
-   * @param security The security object passed in through the request when a new administrator is
-   *        made.
-   * @return
+   * @return Returns a response entity with a status code based on whether the operation was
+   *         successful or not.
    */
   @PostMapping("/admin")
-  public ResponseEntity createAdmin(@RequestBody Security security) {
+  public ResponseEntity createAdmin(@RequestBody RegisterDto registerDto) {
+    System.out.println(registerDto);
+    String host = "localhost";
+    String port = "8090";
     try {
+      Security security =
+          new Security(registerDto.getUserDto().getEmail(), registerDto.getPassword());
       securityService.createAdminSecurity(security);
-      return new ResponseEntity(HttpStatus.OK);
+      // Opening new HTTP Request to the admin service to have it create a new admin.
+      URL obj;
+      obj = new URL("HTTP://" + host + ":" + port + "/user");
+      HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+      con.setRequestMethod(HttpMethod.POST);
+      int responseCode = con.getResponseCode();
+      if (responseCode == HttpURLConnection.HTTP_OK) {
+        // If the response code is an "OK".
+        // Print the response. 
+        System.out.println("User response was Ok.");
+        return new ResponseEntity(HttpStatus.OK);
+      } else {
+        // If the response was not an "OK", print the response code and tell the user.
+        System.out.println("Request did not work. Status Code: " + responseCode);
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+      }
     } catch (Exception e) {
       return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
@@ -153,16 +189,81 @@ public class SecurityController {
    * Returns a 200 status code with "Success" in the response body if the user is allowed to perform
    * the operation, returns a 403 status code if the user isn't allowed to perform the operation.
    * 
-   * @param security The security object passed in through the request when a new user is
-   *        registered.
-   * @return
+   * @return Returns a response entity with a status code based on whether the operation was
+   *         successful or not.
    */
   @PostMapping("/user")
-  public ResponseEntity createUser(@RequestBody Security security) {
+  public ResponseEntity createUser(@RequestBody RegisterDto registerDto) {
+    System.out.println(registerDto);
+    String host = "localhost";
+    String port = "8090";
     try {
+      // Creating new security object in the database.
+      Security security =
+          new Security(registerDto.getUserDto().getEmail(), registerDto.getPassword());
       securityService.createUserSecurity(security);
-      return new ResponseEntity(HttpStatus.OK);
+
+      // Creating the new JWT.
+      String token = JWT.create().withSubject(registerDto.getUserDto().getEmail())
+          .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
+          .sign(HMAC512(JwtProperties.SECRET.getBytes()));
+
+      // Adding JWT token in the response header.
+      HttpHeaders headers = new HttpHeaders();
+      headers.add(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + token);
+
+      // Opening new HTTP Request to the user service to have it create a new user.
+      URL obj;
+      obj = new URL("HTTP://" + host + ":" + port + "/user");
+      System.out.println("HTTP://" + host + ":" + port + "/user");
+      HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+      con.setRequestMethod(HttpMethod.POST);
+
+      // Turning UserDto into JSON.
+      ObjectMapper om = new ObjectMapper();
+      String userDtoOut = om.writeValueAsString(registerDto.getUserDto());
+      System.out.println(userDtoOut);
+
+      // Attach the correct body to the request.
+      con.setDoOutput(true);
+      con.setRequestProperty("Content-Type", "application/json; utf-8");
+
+      // Sending HTTP Request.
+      OutputStream os = con.getOutputStream();
+      OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+      osw.write(userDtoOut);
+      System.out.println("Wrote JSON to request body.");
+      osw.flush();
+      osw.close();
+      os.close();
+      System.out.println("Closed streams.");
+
+      // Reading response.
+      int responseCode = con.getResponseCode();
+      if (responseCode == HttpURLConnection.HTTP_CREATED) {
+        // If the response code is an "OK".
+        // Print the response code. 
+        System.out.println("Request was successful. Status Code: " + responseCode + ".");
+
+        // Get and print the response body.
+        BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));
+        StringBuilder sb = new StringBuilder();
+        String output;
+        while ((output = br.readLine()) != null) {
+          sb.append(output);
+        }
+        System.out.println(sb);
+
+        // Attach the response body to the response entity.
+        return new ResponseEntity(sb, headers, HttpStatus.CREATED);
+      } else {
+        // If the response was not an "OK", print the response code and tell the user.
+        System.out.println("Request did not work. Status Code: " + responseCode);
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+      }
+
     } catch (Exception e) {
+      e.printStackTrace();
       return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
   }
