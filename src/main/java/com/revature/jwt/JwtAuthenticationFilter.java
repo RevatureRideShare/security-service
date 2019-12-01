@@ -112,8 +112,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         int responseCode = con.getResponseCode();
         if (responseCode == HttpURLConnection.HTTP_OK) {
           // If the response code is an "OK".
-          // Print the response. 
-          System.out.println("User response was Ok.");
 
           // Creating JWT token.
           String token = JWT.create().withSubject(userPrincipal.getUsername())
@@ -128,7 +126,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
           StringBuilder sb = new StringBuilder();
           String output;
           while ((output = br.readLine()) != null) {
-            System.out.println(output);
             sb.append(output);
           }
           PrintWriter bodyWriter = response.getWriter();
@@ -136,8 +133,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
           bodyWriter.flush();
 
         } else {
-          // If the response was not an "OK", print the response code and tell the user.
-          System.out.println("Request did not work. Status Code: " + responseCode);
+          // If the response was not an "OK" set the response code.
           response.setStatus(responseCode);
         }
 
@@ -145,7 +141,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         e.printStackTrace();
       }
     } else if (roles.contains("ROLE_USER")) {
-      System.out.println("Test User.");
 
       try {
         // Opening new HTTP Request to the user service to have it get the correct user.
@@ -158,8 +153,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         int responseCode = con.getResponseCode();
         if (responseCode == HttpURLConnection.HTTP_OK) {
           // If the response code is an "OK".
-          // Print the response. 
-          System.out.println("User response was Ok.");
 
           // Creating JWT token.
           String token = JWT.create().withSubject(userPrincipal.getUsername())
@@ -174,7 +167,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
           StringBuilder sb = new StringBuilder();
           String output;
           while ((output = br.readLine()) != null) {
-            System.out.println(output);
             sb.append(output);
           }
           PrintWriter bodyWriter = response.getWriter();
@@ -183,7 +175,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         } else {
           // If the response was not an "OK", print the response code and tell the user.
-          System.out.println("Request did not work. Status Code: " + responseCode);
           response.setStatus(responseCode);
         }
 

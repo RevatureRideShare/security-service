@@ -143,7 +143,6 @@ public class SecurityController {
    */
   @PostMapping("/admin")
   public ResponseEntity createAdmin(@RequestBody RegisterDto registerDto) {
-    System.out.println(registerDto);
     String host = "localhost";
     String port = "8090";
     try {
@@ -159,11 +158,9 @@ public class SecurityController {
       if (responseCode == HttpURLConnection.HTTP_OK) {
         // If the response code is an "OK".
         // Print the response. 
-        System.out.println("User response was Ok.");
         return new ResponseEntity(HttpStatus.OK);
       } else {
         // If the response was not an "OK", print the response code and tell the user.
-        System.out.println("Request did not work. Status Code: " + responseCode);
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
       }
     } catch (Exception e) {
@@ -194,7 +191,6 @@ public class SecurityController {
    */
   @PostMapping("/user")
   public ResponseEntity createUser(@RequestBody RegisterDto registerDto) {
-    System.out.println(registerDto);
     String host = "localhost";
     String port = "8090";
     try {
@@ -215,14 +211,12 @@ public class SecurityController {
       // Opening new HTTP Request to the user service to have it create a new user.
       URL obj;
       obj = new URL("HTTP://" + host + ":" + port + "/user");
-      System.out.println("HTTP://" + host + ":" + port + "/user");
       HttpURLConnection con = (HttpURLConnection) obj.openConnection();
       con.setRequestMethod(HttpMethod.POST);
 
       // Turning UserDto into JSON.
       ObjectMapper om = new ObjectMapper();
       String userDtoOut = om.writeValueAsString(registerDto.getUserDto());
-      System.out.println(userDtoOut);
 
       // Attach the correct body to the request.
       con.setDoOutput(true);
@@ -232,18 +226,15 @@ public class SecurityController {
       OutputStream os = con.getOutputStream();
       OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
       osw.write(userDtoOut);
-      System.out.println("Wrote JSON to request body.");
       osw.flush();
       osw.close();
       os.close();
-      System.out.println("Closed streams.");
 
       // Reading response.
       int responseCode = con.getResponseCode();
       if (responseCode == HttpURLConnection.HTTP_CREATED) {
         // If the response code is an "OK".
         // Print the response code. 
-        System.out.println("Request was successful. Status Code: " + responseCode + ".");
 
         // Get and print the response body.
         BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));
@@ -252,13 +243,11 @@ public class SecurityController {
         while ((output = br.readLine()) != null) {
           sb.append(output);
         }
-        System.out.println(sb);
 
         // Attach the response body to the response entity.
         return new ResponseEntity(sb, headers, HttpStatus.CREATED);
       } else {
         // If the response was not an "OK", print the response code and tell the user.
-        System.out.println("Request did not work. Status Code: " + responseCode);
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
       }
 

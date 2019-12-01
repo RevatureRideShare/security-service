@@ -41,7 +41,6 @@ public class UserPrincipal implements UserDetails {
 
   @Override
   public String getPassword() {
-    System.out.println(this.security);
     return this.security.getPassword();
   }
 
