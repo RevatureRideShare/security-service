@@ -18,7 +18,7 @@ pipeline {
         SONAR_SCANNER_OPTS="-server" 
         ORG="RevatureRideShare"
         REPO="security-service"
-        BRANCH="master" 
+        BRANCH="feature/9-jacoco" 
     }
 
     stages {
