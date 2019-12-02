@@ -27,6 +27,11 @@ public class SecurityServiceApplication {
     SpringApplication.run(SecurityServiceApplication.class, args);
   }
 
+  /**
+   * Allows CORS policy issues to work.
+   * 
+   * @return
+   */
   @Bean
   public CorsFilter corsFilter() {
     final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
