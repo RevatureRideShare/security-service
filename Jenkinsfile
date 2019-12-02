@@ -53,10 +53,6 @@ pipeline {
                 jacoco(
                     maximumLineCoverage: '100',
                     minimumLineCoverage: '100'
-                    // execPattern: 'target/site/jacoco/jacoco.xml',
-                    // classPattern: 'target/classes',
-                    // sourcePattern: 'src/main/java',
-                    // exclusionPattern: 'src/main/java/com/revature/bean/*,src/main/javacom/revature/repo/*,src/main/java/com/revature/exception/*'
                 )
             }
   		}
