@@ -43,19 +43,19 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
   private static Logger log = Logger.getLogger("JwtAuthenticationFilter");
 
-  // ! This field is an AuthenticationManager object provided by Spring Security.
+  //! This field is an AuthenticationManager object provided by Spring Security.
   private AuthenticationManager authenticationManager;
 
   public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
     this.authenticationManager = authenticationManager;
   }
 
-  // ! This method attempts to login a user.
-  // ! It takes in an HttpServletRequest and HttpServletResponse provided by the DispatcherServlet.
-  // ! The HttpServletRequest must contain a JSON object in the request body containing the email
-  // ! and the password.
-  // ! The method returns an Authentication object which contains a JWT.
-  // ! This method relies on the Spring Security dependency.
+  /**
+   * This method attempts to login a user. It takes in an HttpServletRequest and HttpServletResponse
+   * provided by the DispatcherServlet. The HttpServletRequest must contain a JSON object in the
+   * request body containing the email and the password. The method returns an Authentication object
+   * which contains a JWT. This method relies on the Spring Security dependency.
+   */
   @Override
   public Authentication attemptAuthentication(HttpServletRequest request,
       HttpServletResponse response) throws AuthenticationException {
@@ -89,14 +89,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     return authentication;
   }
 
-  // ! This method attaches JWT to response header if login is successful.
-  // ! The method takes in a HttpServletRequest and HttpServletResponse provided by Spring Security
-  // ! from the attemptAuthentication method.
-  // ! The method also takes in a FilterChain object and an Authentication object provided by Spring
-  // ! Security.
-  // ! The method does not return anything, but modifies the response referenced in
-  // ! attemptAuthentication based on whether authentication was successful or not.
-  // ! This method relies on the Spring Security dependency.
+  /**
+   * This method attaches JWT to response header if login is successful. The method takes in a
+   * HttpServletRequest and HttpServletResponse provided by Spring Security from the
+   * attemptAuthentication method. The method also takes in a FilterChain object and an
+   * Authentication object provided by Spring Security. The method does not return anything, but
+   * modifies the response referenced in attemptAuthentication based on whether authentication was
+   * successful or not. This method relies on the Spring Security dependency.
+   */
   @Override
   protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
       FilterChain chain, Authentication authResult) throws IOException, ServletException {
