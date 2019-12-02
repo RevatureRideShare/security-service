@@ -42,8 +42,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-  @Value("#{environment.RIDESHARE_1909_HOST}")
-  private String host;
+  @Value("#{environment.RIDESHARE_1909_USER_HOST}")
+  private String userHost;
+  @Value("#{environment.RIDESHARE_1909_ADMIN_HOST}")
+  private String adminHost;
   @Value("#{environment.RIDESHARE_1909_USER_PORT}")
   private String userPort;
   @Value("#{environment.RIDESHARE_1909_ADMIN_PORT}")
@@ -125,7 +127,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
       try {
         // Opening new HTTP Request to the user service to have it get the correct user.
         URL obj;
-        obj = new URL("HTTP://" + host + ":" + adminPort + "/admin/" + userPrincipal.getUsername());
+        obj = new URL(
+            "HTTP://" + adminHost + ":" + adminPort + "/admin/" + userPrincipal.getUsername());
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod(HttpMethod.GET);
 
@@ -172,7 +175,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
       try {
         // Opening new HTTP Request to the user service to have it get the correct user.
         URL obj;
-        obj = new URL("HTTP://" + host + ":" + userPort + "/user/" + userPrincipal.getUsername());
+        obj =
+            new URL("HTTP://" + userHost + ":" + userPort + "/user/" + userPrincipal.getUsername());
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod(HttpMethod.GET);
 
