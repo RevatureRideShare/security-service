@@ -41,6 +41,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
+  private static final String HOST = "localhost";
+  private static final String USER_PORT = "8090";
+  private static final String ADMIN_PORT = "8091";
+
+
   private static Logger log = Logger.getLogger("JwtAuthenticationFilter");
 
   //! This field is an AuthenticationManager object provided by Spring Security.
@@ -102,10 +107,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
       FilterChain chain, Authentication authResult) throws IOException, ServletException {
     log.info("Inside method successfulAuthentication");
 
-    String host = "localhost";
-    String userPort = "8090";
-    String adminPort = "8091";
-
     // Getting currently logged in user.
     UserPrincipal userPrincipal = (UserPrincipal) authResult.getPrincipal();
 
@@ -121,7 +122,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
       try {
         // Opening new HTTP Request to the user service to have it get the correct user.
         URL obj;
-        obj = new URL("HTTP://" + host + ":" + adminPort + "/admin/" + userPrincipal.getUsername());
+        obj =
+            new URL("HTTP://" + HOST + ":" + ADMIN_PORT + "/admin/" + userPrincipal.getUsername());
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod(HttpMethod.GET);
 
@@ -168,7 +170,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
       try {
         // Opening new HTTP Request to the user service to have it get the correct user.
         URL obj;
-        obj = new URL("HTTP://" + host + ":" + userPort + "/user/" + userPrincipal.getUsername());
+        obj = new URL("HTTP://" + HOST + ":" + USER_PORT + "/user/" + userPrincipal.getUsername());
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod(HttpMethod.GET);
 
