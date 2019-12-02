@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.HttpMethod;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -41,10 +42,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-  private static final String HOST = "localhost";
-  private static final String USER_PORT = "8090";
-  private static final String ADMIN_PORT = "8091";
-
+  @Value("#{environment.RIDESHARE_1909_HOST}")
+  private String host;
+  @Value("#{environment.RIDESHARE_1909_USER_PORT}")
+  private String userPort;
+  @Value("#{environment.RIDESHARE_1909_ADMIN_PORT}")
+  private String adminPort;
 
   private static Logger log = Logger.getLogger("JwtAuthenticationFilter");
 
@@ -122,8 +125,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
       try {
         // Opening new HTTP Request to the user service to have it get the correct user.
         URL obj;
-        obj =
-            new URL("HTTP://" + HOST + ":" + ADMIN_PORT + "/admin/" + userPrincipal.getUsername());
+        obj = new URL("HTTP://" + host + ":" + adminPort + "/admin/" + userPrincipal.getUsername());
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod(HttpMethod.GET);
 
@@ -170,7 +172,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
       try {
         // Opening new HTTP Request to the user service to have it get the correct user.
         URL obj;
-        obj = new URL("HTTP://" + HOST + ":" + USER_PORT + "/user/" + userPrincipal.getUsername());
+        obj = new URL("HTTP://" + host + ":" + userPort + "/user/" + userPrincipal.getUsername());
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod(HttpMethod.GET);
 
