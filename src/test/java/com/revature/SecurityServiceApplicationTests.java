@@ -6,9 +6,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class SecurityServiceApplicationTests {
 
+  //  @Test
+  //  void myTest() {
+  //    assertTrue(true);
+  //  }
+
   @Test
   void contextLoads() {
 
   }
-
 }
