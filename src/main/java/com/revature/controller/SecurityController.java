@@ -121,9 +121,7 @@ public class SecurityController {
     }
   }
 
-  /**
-   * Hystrix-Dashboard microservice:
-   */
+  // Hystrix-Dashboard microservice:
   @GetMapping("/actuator/hystrix.stream")
   public String getHystrix() {
     return "Success";
@@ -159,9 +157,8 @@ public class SecurityController {
           new Security(registerDto.getUserDto().getEmail(), registerDto.getPassword());
       securityService.createAdminSecurity(security);
 
-      /**
-       * Opening new HTTP Request to the admin service to have it create a new admin.
-       */
+
+      // Opening new HTTP Request to the admin service to have it create a new admin.
       URL obj;
       obj = new URL("HTTP://" + host + ":" + port + "/user");
       HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -169,9 +166,8 @@ public class SecurityController {
       int responseCode = con.getResponseCode();
       if (responseCode == HttpURLConnection.HTTP_OK) {
 
-        /**
-         * If the response code is an "OK". Print the response.
-         */
+
+        // If the response code is an "OK". Print the response.
         return new ResponseEntity<>(HttpStatus.OK);
       } else {
         // If the response was not an "OK", print the response code and tell the user.
@@ -206,50 +202,39 @@ public class SecurityController {
   public ResponseEntity<?> createUser(@RequestBody RegisterDto registerDto) {
     String host = "localhost";
     String port = "8090";
+    System.out.println("registerDto: " + registerDto);
     try {
 
-      /**
-       * Creating new security object in the database.
-       */
+
+      // Creating new security object in the database.
       Security security =
           new Security(registerDto.getUserDto().getEmail(), registerDto.getPassword());
       securityService.createUserSecurity(security);
 
-      /**
-       * Creating the new JWT.
-       */
+      // Creating the new JWT.
       String token = JWT.create().withSubject(registerDto.getUserDto().getEmail())
           .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
           .sign(HMAC512(JwtProperties.SECRET.getBytes()));
-      /**
-       * Adding JWT token in the response header.
-       */
+
+      // Adding JWT token in the response header.
       HttpHeaders headers = new HttpHeaders();
       headers.add(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + token);
 
-      /**
-       * Opening new HTTP Request to the user service to have it create a new user.
-       */
+      // Opening new HTTP Request to the user service to have it create a new user.
       URL obj;
       obj = new URL("HTTP://" + host + ":" + port + "/user");
       HttpURLConnection con = (HttpURLConnection) obj.openConnection();
       con.setRequestMethod(HttpMethod.POST);
 
-      /**
-       * Turning UserDto into JSON.
-       */
+      // Turning UserDto into JSON.
       ObjectMapper om = new ObjectMapper();
       String userDtoOut = om.writeValueAsString(registerDto.getUserDto());
 
-      /**
-       * Attach the correct body to the request.F
-       */
+      // Attach the correct body to the request.F
       con.setDoOutput(true);
       con.setRequestProperty("Content-Type", "application/json; utf-8");
 
-      /**
-       * Sending HTTP Request.
-       */
+      // Sending HTTP Request.
       OutputStream os = con.getOutputStream();
       OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
       osw.write(userDtoOut);
@@ -257,18 +242,12 @@ public class SecurityController {
       osw.close();
       os.close();
 
-      /**
-       * Reading response.
-       */
+      // Reading response.
       int responseCode = con.getResponseCode();
       if (responseCode == HttpURLConnection.HTTP_CREATED) {
 
-        /**
-         * If the response code is an "OK", print the response code.
-         */
-        /**
-         * Get and print the response body.
-         */
+        // If the response code is an "OK", print the response code.
+        // Get and print the response body.
         BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));
         StringBuilder sb = new StringBuilder();
         String output;
@@ -276,15 +255,11 @@ public class SecurityController {
           sb.append(output);
         }
 
-        /**
-         * Attach the response body to the response entity.
-         */
+        // Attach the response body to the response entity.
         return new ResponseEntity<>(sb, headers, HttpStatus.CREATED);
       } else {
 
-        /**
-         * If the response was not an "OK", print the response code and tell the user.
-         */
+        // If the response was not an "OK", print the response code and tell the user.
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
       }
 
