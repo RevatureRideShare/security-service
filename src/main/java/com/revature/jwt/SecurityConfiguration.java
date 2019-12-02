@@ -93,8 +93,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.PUT, "/user/{email}")
         .access("hasRole('ADMIN') or #email == authentication.getPrincipal()")
         .antMatchers(HttpMethod.PATCH, "/user/*").hasRole("ADMIN")
-        .antMatchers(HttpMethod.GET, "/user?role={role}").hasRole("USER")
-        .antMatchers(HttpMethod.GET, "/user").hasRole("USER")
+        .antMatchers(HttpMethod.GET, "/user?role={role}").hasAnyRole("USER", "ADMIN")
+        .antMatchers(HttpMethod.GET, "/user").hasAnyRole("USER", "ADMIN")
         .antMatchers(HttpMethod.GET, "/user/{email}").hasRole("USER")
         // Car controller methods:
         // User can't have a role because they are creating a new user account.

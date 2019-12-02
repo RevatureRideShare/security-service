@@ -115,6 +115,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     // Getting currently logged in user.
     UserPrincipal userPrincipal = (UserPrincipal) authResult.getPrincipal();
 
+    userHost = "localhost";
+    userPort = "8090";
+    adminHost = "localhost";
+    adminPort = "8091";
+
     log.info("Created userPrincipal " + userPrincipal.toString());
 
     Set<String> roles =
@@ -126,6 +131,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
       try {
         // Opening new HTTP Request to the user service to have it get the correct user.
+        log.info("AdminHost:" + adminHost);
+        log.info("AdminPort:" + adminPort);
+        log.info("Email:" + userPrincipal.getUsername());
+
         URL obj;
         obj = new URL(
             "HTTP://" + adminHost + ":" + adminPort + "/admin/" + userPrincipal.getUsername());
@@ -159,6 +168,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             sb.append(output);
           }
           PrintWriter bodyWriter = response.getWriter();
+          log.info(sb.toString());
           bodyWriter.write(sb.toString());
           bodyWriter.flush();
 
@@ -174,6 +184,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
       try {
         // Opening new HTTP Request to the user service to have it get the correct user.
+        log.info("UserHost:" + userHost);
+        log.info("UserPort:" + userPort);
+        log.info("Email:" + userPrincipal.getUsername());
+
         URL obj;
         obj =
             new URL("HTTP://" + userHost + ":" + userPort + "/user/" + userPrincipal.getUsername());
