@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
@@ -40,28 +41,35 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-  //! This field is an AuthenticationManager object provided by Spring Security.
+  private static Logger log = Logger.getLogger("JwtAuthenticationFilter");
+
+  // ! This field is an AuthenticationManager object provided by Spring Security.
   private AuthenticationManager authenticationManager;
 
   public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
     this.authenticationManager = authenticationManager;
   }
 
-  //! This method attempts to login a user.
-  //! It takes in an HttpServletRequest and HttpServletResponse provided by the DispatcherServlet.
-  //! The HttpServletRequest must contain a JSON object in the request body containing the email
-  //! and the password.
-  //! The method returns an Authentication object which contains a JWT.
-  //! This method relies on the Spring Security dependency.
+  // ! This method attempts to login a user.
+  // ! It takes in an HttpServletRequest and HttpServletResponse provided by the DispatcherServlet.
+  // ! The HttpServletRequest must contain a JSON object in the request body containing the email
+  // ! and the password.
+  // ! The method returns an Authentication object which contains a JWT.
+  // ! This method relies on the Spring Security dependency.
   @Override
   public Authentication attemptAuthentication(HttpServletRequest request,
       HttpServletResponse response) throws AuthenticationException {
+    log.info(
+        "Inside JwtAuthenticationFilter's attemptAuthentication method, with HttpServletRequest "
+            + request.toString() + ", HttpServletRsponse " + response.toString());
     // Maps login request to login bean.
     Login login = null;
 
     try {
+      log.info("Trying to create the login object");
       login = new ObjectMapper().readValue(request.getInputStream(), Login.class);
     } catch (IOException e) {
+      log.info("Catching exception " + e.getMessage());
       e.printStackTrace();
     }
 
@@ -70,23 +78,29 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword(),
             new ArrayList<>());
 
+    log.info("Created UsernamePasswordAuthenticationToken " + authenticationToken.toString());
+
     // Authenticate the user.
     Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
+    log.info("Created Authentication " + authentication.toString());
+
+    log.info("Returning Authentication " + authentication.toString());
     return authentication;
   }
 
-  //! This method attaches JWT to response header if login is successful.
-  //! The method takes in a HttpServletRequest and HttpServletResponse provided by Spring Security
-  //! from the attemptAuthentication method.
-  //! The method also takes in a FilterChain object and an Authentication object provided by Spring
-  //! Security.
-  //! The method does not return anything, but modifies the response referenced in
-  //! attemptAuthentication based on whether authentication was successful or not.
-  //! This method relies on the Spring Security dependency.
+  // ! This method attaches JWT to response header if login is successful.
+  // ! The method takes in a HttpServletRequest and HttpServletResponse provided by Spring Security
+  // ! from the attemptAuthentication method.
+  // ! The method also takes in a FilterChain object and an Authentication object provided by Spring
+  // ! Security.
+  // ! The method does not return anything, but modifies the response referenced in
+  // ! attemptAuthentication based on whether authentication was successful or not.
+  // ! This method relies on the Spring Security dependency.
   @Override
   protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
       FilterChain chain, Authentication authResult) throws IOException, ServletException {
+    log.info("Inside method successfulAuthentication");
 
     String host = "localhost";
     String userPort = "8090";
@@ -94,12 +108,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     // Getting currently logged in user.
     UserPrincipal userPrincipal = (UserPrincipal) authResult.getPrincipal();
+
+    log.info("Created userPrincipal " + userPrincipal.toString());
+
     Set<String> roles =
         authResult.getAuthorities().stream().map(r -> r.getAuthority()).collect(Collectors.toSet());
-    System.out.println("Authorities: " + roles);
+    log.info("Created set of roles " + roles.toString());
 
     if (roles.contains("ROLE_ADMIN")) {
-      System.out.println("Test Admin.");
+      log.info("Set of roles contains ROLE_ADMIN");
 
       try {
         // Opening new HTTP Request to the user service to have it get the correct user.
@@ -108,9 +125,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod(HttpMethod.GET);
 
+        log.info("Set request method of GET /admin/" + userPrincipal.toString());
+
         // Getting response.
         int responseCode = con.getResponseCode();
         if (responseCode == HttpURLConnection.HTTP_OK) {
+          log.info("ResponseCode is HttpURLConnection.HTTP_OK");
           // If the response code is an "OK".
 
           // Creating JWT token.
@@ -118,8 +138,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
               .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
               .sign(HMAC512(JwtProperties.SECRET.getBytes()));
 
+          log.info("Created JWT token " + token);
+
           // Adding JWT token in the response header.
           response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + token);
+          log.info("Added JWT token in response header");
 
           // Add response body of the user response to the security response.
           BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));

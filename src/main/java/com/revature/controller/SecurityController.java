@@ -173,7 +173,7 @@ public class SecurityController {
     String host = "localhost";
     String port = "8090";
     try {
-      log.info("___");
+      log.info("Trying to create security object with registerDto " + registerDto.toString());
       Security security =
           new Security(registerDto.getUserDto().getEmail(), registerDto.getPassword());
       securityService.createAdminSecurity(security);
@@ -182,19 +182,24 @@ public class SecurityController {
       // Opening new HTTP Request to the admin service to have it create a new admin.
       URL obj;
       obj = new URL("HTTP://" + host + ":" + port + "/user");
+      log.info("Trying to set the request method of POST /user using " + obj.toString());
       HttpURLConnection con = (HttpURLConnection) obj.openConnection();
       con.setRequestMethod(HttpMethod.POST);
       int responseCode = con.getResponseCode();
       if (responseCode == HttpURLConnection.HTTP_OK) {
-
-
+        log.info("HttpURLConnection is HTTP_OK");
+        log.info("Returning responseentity of HttpStatus.OK");
         // If the response code is an "OK". Print the response.
         return new ResponseEntity<>(HttpStatus.OK);
       } else {
+        log.info("HttpURLConnection is " + responseCode);
+        log.info("Returning ResponseEntity of HttpStatus.BadRequest");
         // If the response was not an "OK", print the response code and tell the user.
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
       }
     } catch (Exception e) {
+      log.info("Caught a generic Exception " + e.getMessage());
+      log.info("Returning ResponseEntity of HttpStatus.BAD_REQUEST");
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
@@ -223,39 +228,48 @@ public class SecurityController {
    */
   @PostMapping("/user")
   public ResponseEntity<?> createUser(@RequestBody RegisterDto registerDto) {
+    log.info("Inside POST /user, in method createUser, with RegisterDto " + registerDto.toString());
     String host = "localhost";
     String port = "8090";
-    System.out.println("registerDto: " + registerDto);
-    try {
 
+    try {
+      log.info("Trying to create security object for RegisterDto " + registerDto.toString());
 
       // Creating new security object in the database.
       Security security =
           new Security(registerDto.getUserDto().getEmail(), registerDto.getPassword());
       securityService.createUserSecurity(security);
 
+      log.info("Successfully created security object, along with creating userSecurity of security "
+          + security.toString());
+
       // Creating the new JWT.
       String token = JWT.create().withSubject(registerDto.getUserDto().getEmail())
           .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
           .sign(HMAC512(JwtProperties.SECRET.getBytes()));
+      log.info("Successfully created new JWT " + token);
 
       // Adding JWT token in the response header.
       HttpHeaders headers = new HttpHeaders();
       headers.add(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + token);
+      log.info("Successfully added JWT token in response header " + headers.toString());
 
       // Opening new HTTP Request to the user service to have it create a new user.
       URL obj;
       obj = new URL("HTTP://" + host + ":" + port + "/user");
       HttpURLConnection con = (HttpURLConnection) obj.openConnection();
       con.setRequestMethod(HttpMethod.POST);
+      log.info("Successfully opened new HTTP request with POST /user endpoint");
 
       // Turning UserDto into JSON.
       ObjectMapper om = new ObjectMapper();
       String userDtoOut = om.writeValueAsString(registerDto.getUserDto());
+      log.info("UserDto is " + userDtoOut);
 
       // Attach the correct body to the request.F
       con.setDoOutput(true);
       con.setRequestProperty("Content-Type", "application/json; utf-8");
+      log.info("Successfully attached correct body to the request");
 
       // Sending HTTP Request.
       OutputStream os = con.getOutputStream();
@@ -264,30 +278,37 @@ public class SecurityController {
       osw.flush();
       osw.close();
       os.close();
+      log.info("Successfully sent HTTP Request with userDtoOut" + userDtoOut);
 
       // Reading response.
       int responseCode = con.getResponseCode();
       if (responseCode == HttpURLConnection.HTTP_CREATED) {
-
+        log.info("Response code is HttpURLConnection.HTTP_CREATED");
         // If the response code is an "OK", print the response code.
         // Get and print the response body.
         BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));
         StringBuilder sb = new StringBuilder();
         String output;
+
         while ((output = br.readLine()) != null) {
+          log.info("Output string is " + output);
           sb.append(output);
         }
 
+        log.info("Returning ResponseEntity with StringBuilder " + sb.toString() + ", headers "
+            + headers.toString() + " " + "and HttpStatus.CREATED");
         // Attach the response body to the response entity.
         return new ResponseEntity<>(sb, headers, HttpStatus.CREATED);
       } else {
-
+        log.info("returning ResponseEntity with HttpStatus.BAD_REQUEST");
         // If the response was not an "OK", print the response code and tell the user.
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
       }
 
     } catch (Exception e) {
+      log.info("Caught a generic Exception " + e.getMessage());
       e.printStackTrace();
+      log.info("Returning ResponseEntity with HttpStatus.BAD_REQUEST");
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
@@ -300,6 +321,8 @@ public class SecurityController {
    */
   @PutMapping("/user/{email}")
   public String updateUser() {
+    log.info("Inside SecurityController's PUT /user/{email} in method updateUser");
+    log.info("Returning Success by default");
     return "Success";
   }
 
@@ -311,6 +334,8 @@ public class SecurityController {
    */
   @PatchMapping("/user/*")
   public String patchUser() {
+    log.info("Inside SecurityController's PATCH /user/*, in method called patchUser");
+    log.info("Returns success by default");
     return "Success";
   }
 
@@ -322,6 +347,8 @@ public class SecurityController {
    */
   @GetMapping("/user?role={role}")
   public String getUsersByRole() {
+    log.info("Inside SecurityController's GET /user?role={role}, in method called getUsersByRole");
+    log.info("Returns success by default");
     return "Success";
   }
 
@@ -333,6 +360,8 @@ public class SecurityController {
    */
   @GetMapping("/user")
   public String getAllUsers() {
+    log.info("Inside SecurityController's GET /user, in method called getAllUsers");
+    log.info("Returns success by default");
     return "Success";
   }
 
@@ -344,6 +373,8 @@ public class SecurityController {
    */
   @GetMapping("/user/{email}")
   public String getUserByEmail() {
+    log.info("Inside SecurityController's GET /user/{email}, in method getUsersByEmail");
+    log.info("Returns success by default");
     return "Success";
   }
 
@@ -355,6 +386,8 @@ public class SecurityController {
    */
   @PostMapping("/car")
   public String createCar() {
+    log.info("Inside SecurityController's POST /car, in method createCar");
+    log.info("Returns success by default");
     return "Success";
   }
 
@@ -366,6 +399,8 @@ public class SecurityController {
    */
   @GetMapping("/user/{email}/car")
   public String getCarsByUser() {
+    log.info("Inside SecurityController's GET /user/{email}/car, in method getCarsByUser");
+    log.info("Returns success by default");
     return "Success";
   }
 
@@ -378,6 +413,8 @@ public class SecurityController {
    */
   @PostMapping("/housing-location")
   public String createHousingLocation() {
+    log.info("Inside SecurityController's POST /housing-location, in method createHousingLocation");
+    log.info("Returns success by default");
     return "Success";
   }
 
@@ -389,6 +426,8 @@ public class SecurityController {
    */
   @GetMapping("/housing-location")
   public String getAllHousingLocations() {
+    log.info("Inside SecurityController's GET /housing-location, in method getAllHousingLocations");
+    log.info("Returns success by default");
     return "Success";
   }
 
@@ -401,6 +440,9 @@ public class SecurityController {
    */
   @GetMapping("/housing-location/{training-location}/housing-location")
   public String getHousingLocationsByTrainingLocation() {
+    log.info(
+        "Inside SecurityController's GET /housing-location/{training-location}/housing-location, inside method getHousingLocationsByTrainingLocation");
+    log.info("Returns success by default");
     return "Success";
   }
 
@@ -413,6 +455,9 @@ public class SecurityController {
    */
   @PostMapping("/training-location")
   public String createTrainingLocation() {
+    log.info(
+        "Inside SecurityController's POST /training-location, inside method createTrainingLocation");
+    log.info("Returns success by default");
     return "Success";
   }
 
@@ -424,6 +469,9 @@ public class SecurityController {
    */
   @GetMapping("/training-location")
   public String getAllTrainingLocations() {
+    log.info(
+        "Inside SecurityController's GET /training-locatino inside method getAllTrainingLocations");
+    log.info("Returns success by default");
     return "Success";
   }
 
