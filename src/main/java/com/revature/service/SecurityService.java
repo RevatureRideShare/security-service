@@ -1,5 +1,7 @@
 package com.revature.service;
 
+import static com.revature.util.LoggerUtil.trace;
+
 import com.revature.bean.Security;
 import com.revature.repository.SecurityRepository;
 
@@ -16,12 +18,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class SecurityService {
 
-  //! PasswordEncoder is a spring security variable that is used to encrypt passwords for storage
-  //! in the database
-  //! and to encrypt passwords during login attempts for comparison to persisted passwords.
+  // ! PasswordEncoder is a spring security variable that is used to encrypt passwords for storage
+  // ! in the database
+  // ! and to encrypt passwords during login attempts for comparison to persisted passwords.
   private PasswordEncoder passwordEncoder;
 
-  //! The SecurityRepository object peforms DAO operations for the security table.
+  // ! The SecurityRepository object peforms DAO operations for the security table.
   private SecurityRepository securityRepository;
 
   public SecurityService(PasswordEncoder passwordEncoder, SecurityRepository securityRepository) {
@@ -40,9 +42,11 @@ public class SecurityService {
    * @return
    */
   public Security createUserSecurity(Security security) {
+    trace("Inside createUserSecurity service method.");
     Security encodedSecurity =
         new Security(security.getEmail(), passwordEncoder.encode(security.getPassword()), "USER");
     Security responseSecurity = securityRepository.save(encodedSecurity);
+    trace("Saved encodedSecurity and returning responseSecurity");
     return responseSecurity;
   }
 
@@ -57,9 +61,11 @@ public class SecurityService {
    * @return
    */
   public Security createAdminSecurity(Security security) {
+    trace("Inside createAdminSecurity service method.");
     Security encodedSecurity =
         new Security(security.getEmail(), passwordEncoder.encode(security.getPassword()), "ADMIN");
     Security responseSecurity = securityRepository.save(encodedSecurity);
+    trace("Saved encodedSecurity and returning responseSecurity");
     return responseSecurity;
   }
 
@@ -75,9 +81,11 @@ public class SecurityService {
    * @return
    */
   public Security createNullSecurity(Security security) {
+    trace("Inside createNullSecurity service method.");
     Security encodedSecurity =
         new Security(security.getEmail(), passwordEncoder.encode(security.getPassword()), "NULL");
     Security responseSecurity = securityRepository.save(encodedSecurity);
+    trace("Saved encodedSecurity and returning responseSecurity");
     return responseSecurity;
   }
 
