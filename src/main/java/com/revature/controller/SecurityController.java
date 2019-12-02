@@ -17,6 +17,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import javax.ws.rs.HttpMethod;
 
@@ -48,6 +49,8 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class SecurityController {
 
+  private static Logger log = Logger.getLogger("SecurityController");
+
   /**
    * This field is the SecurityRepository object that handles DAO operations in the security table.
    */
@@ -76,6 +79,8 @@ public class SecurityController {
    */
   @GetMapping("test/public")
   public String testPublic() {
+    log.info(
+        "Inside SecurityController's GET test/public endpoint, this is just for Postman testing");
     return "Success";
   }
 
@@ -87,6 +92,8 @@ public class SecurityController {
    */
   @GetMapping("test/user")
   public String testUser() {
+    log.info(
+        "Inside SecurityController's GET test/user endpoint, this is just for Postman testing");
     return "Success";
   }
 
@@ -98,6 +105,8 @@ public class SecurityController {
    */
   @GetMapping("test/admin")
   public String testAdmin() {
+    log.info(
+        "Inside SecurityController's GET test/admin endpoint, this is just for Postman testing");
     return "Success";
   }
 
@@ -113,10 +122,15 @@ public class SecurityController {
    */
   @PostMapping("/security")
   public ResponseEntity<?> createSecurity(@RequestBody Security security) {
+    log.info("Inside POST /security endpoint, in method createSecurity with Security "
+        + security.toString());
     try {
+      log.info("Trying to createNullSecurity");
       securityService.createNullSecurity(security);
+      log.info("Returning HttpStatus of OK");
       return new ResponseEntity<>(HttpStatus.OK);
     } catch (Exception e) {
+      log.info("Throwing exception of " + e.getMessage());
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
@@ -126,6 +140,8 @@ public class SecurityController {
    */
   @GetMapping("/actuator/hystrix.stream")
   public String getHystrix() {
+    log.info("Inside GET /actuator/hystrix.stream, in method getHystrix");
+    log.info("Returns success by default");
     return "Success";
   }
 
@@ -138,6 +154,8 @@ public class SecurityController {
    */
   @DeleteMapping("/user/*")
   public String deleteUser() {
+    log.info("Inside DELETE /user/*, in method deleteUser");
+    log.info("Returns success by default");
     return "Success";
   }
 
@@ -152,9 +170,12 @@ public class SecurityController {
    */
   @PostMapping("/admin")
   public ResponseEntity<?> createAdmin(@RequestBody RegisterDto registerDto) {
+    log.info("Inside POST /admin endpoint, in method createAdmin with registerDto "
+        + registerDto.toString());
     String host = "localhost";
     String port = "8090";
     try {
+      log.info("___");
       Security security =
           new Security(registerDto.getUserDto().getEmail(), registerDto.getPassword());
       securityService.createAdminSecurity(security);
@@ -190,6 +211,8 @@ public class SecurityController {
    */
   @GetMapping("/admin")
   public String getAllAdmins() {
+    log.info("Inside GET /admin, in method getAllAdmins");
+    log.info("Returns success by default");
     return "Success";
   }
 
