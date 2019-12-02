@@ -110,12 +110,13 @@ public class SecurityController {
     return "Success";
   }
 
+  // Security microservice:
   /**
-   * Security microservice: Method for directing post requests for persisting new security objects
-   * in the security table. Primarily for testing purposes. Takes a JSON object from the request
-   * body and transforms it into a security object. Returns a response with the 200 status code if
-   * the operation was successful, or a 400 status code if the operation failed (almost certainly
-   * due to a duplicate email).
+   * Method for directing post requests for persisting new security objects in the security table.
+   * Primarily for testing purposes. Takes a JSON object from the request body and transforms it
+   * into a security object. Returns a response with the 200 status code if the operation was
+   * successful, or a 400 status code if the operation failed (almost certainly due to a duplicate
+   * email).
    * 
    * @param security Security object passed into the endpoint when a test is performed.
    * @return
@@ -136,6 +137,11 @@ public class SecurityController {
   }
 
   // Hystrix-Dashboard microservice:
+  /**
+   * Method for getting the hystrix dashboard stream.
+   * 
+   * @return Returns success as a string.
+   */
   @GetMapping("/actuator/hystrix.stream")
   public String getHystrix() {
     log.info("Inside GET /actuator/hystrix.stream, in method getHystrix");
@@ -143,12 +149,13 @@ public class SecurityController {
     return "Success";
   }
 
+  // Admin microservice: 
   /**
-   * Admin microservice: Method for authorizing deleting users from the user table in the user
-   * microservice. Security objects in the security table are never deleted for record keeping
-   * purposes. Requires a JWT passed in the HttpRequest header. Returns a 200 status code with
-   * "Success" in the response body if the user is allowed to perform the operation, returns a 403
-   * status code if the user isn't allowed to perform the operation.
+   * Method for authorizing deleting users from the user table in the user microservice. Security
+   * objects in the security table are never deleted for record keeping purposes. Requires a JWT
+   * passed in the HttpRequest header. Returns a 200 status code with "Success" in the response body
+   * if the user is allowed to perform the operation, returns a 403 status code if the user isn't
+   * allowed to perform the operation.
    */
   @DeleteMapping("/user/*")
   public String deleteUser() {
@@ -217,11 +224,12 @@ public class SecurityController {
     return "Success";
   }
 
+  // User microservice: 
   /**
-   * User microservice: User controller methods: Method for authorizing creation of new users in the
-   * user table in the user microservice. Returns a 200 status code with "Success" in the response
-   * body if the user is allowed to perform the operation, returns a 403 status code if the user
-   * isn't allowed to perform the operation.
+   * User controller methods: Method for authorizing creation of new users in the user table in the
+   * user microservice. Returns a 200 status code with "Success" in the response body if the user is
+   * allowed to perform the operation, returns a 403 status code if the user isn't allowed to
+   * perform the operation.
    * 
    * @return Returns a response entity with a status code based on whether the operation was
    *         successful or not.
@@ -378,11 +386,11 @@ public class SecurityController {
     return "Success";
   }
 
+  // Car controller methods: 
   /**
-   * Car controller methods: Method for authorizing creation of a new car in the car table in the
-   * user microservice. Returns a 200 status code with "Success" in the response body if the user is
-   * allowed to perform the operation, returns a 403 status code if the user isn't allowed to
-   * perform the operation.
+   * Method for authorizing creation of a new car in the car table in the user microservice. Returns
+   * a 200 status code with "Success" in the response body if the user is allowed to perform the
+   * operation, returns a 403 status code if the user isn't allowed to perform the operation.
    */
   @PostMapping("/car")
   public String createCar() {
@@ -440,8 +448,9 @@ public class SecurityController {
    */
   @GetMapping("/housing-location/{training-location}/housing-location")
   public String getHousingLocationsByTrainingLocation() {
-    log.info(
-        "Inside SecurityController's GET /housing-location/{training-location}/housing-location, inside method getHousingLocationsByTrainingLocation");
+    log.info("Inside SecurityController's GET "
+        + "/housing-location/{training-location}/housing-location, "
+        + "inside method getHousingLocationsByTrainingLocation");
     log.info("Returns success by default");
     return "Success";
   }
@@ -455,8 +464,8 @@ public class SecurityController {
    */
   @PostMapping("/training-location")
   public String createTrainingLocation() {
-    log.info(
-        "Inside SecurityController's POST /training-location, inside method createTrainingLocation");
+    log.info("Inside SecurityController's POST /training-location, inside "
+        + "method createTrainingLocation");
     log.info("Returns success by default");
     return "Success";
   }

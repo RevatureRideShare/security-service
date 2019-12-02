@@ -1,7 +1,7 @@
 package com.revature.jwt;
 
-import static com.revature.util.LoggerUtil.trace;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
+import static com.revature.util.LoggerUtil.trace;
 
 import com.auth0.jwt.JWT;
 import com.revature.bean.Security;

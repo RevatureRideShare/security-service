@@ -1,7 +1,7 @@
 package com.revature.service;
 
-
 import static com.revature.util.LoggerUtil.trace;
+
 import com.revature.bean.Security;
 import com.revature.bean.UserPrincipal;
 import com.revature.repository.SecurityRepository;
