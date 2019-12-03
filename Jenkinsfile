@@ -18,7 +18,7 @@ pipeline {
         SONAR_SCANNER_OPTS="-server" 
         ORG="RevatureRideShare"
         REPO="security-service"
-        BRANCH="feature/9-jacoco" 
+        BRANCH="master"      
     }
 
     stages {
@@ -42,16 +42,25 @@ pipeline {
             }
         }
 
+        // stage('Test'){
+        //     steps{
+        //         sh 'mvn surefire:test'
+        //     }
+        // }
+        
         stage('Checkstyle') { // Code smells
             steps {
-                script{
+                   script{
                     try{
                         sh 'mvn verify checkstyle:checkstyle'
-                    } catch(err){
-
-                    }
-                }
-            }
+                       // echo "second ls"
+						//sh 'ls target/surefire-reports'
+                        }catch(err){
+                            echo "Caught: ${err}"
+                            currentBuild.result = 'UNSTABLE'
+                        }
+                	}             
+            	}
         }
         
   		stage ('Jacoco') {
@@ -66,7 +75,7 @@ pipeline {
                 )
             }
   		}
-
+	
         stage('Sonar Analysis') { 
             // performs a sonar analysis and sends code to sonarcloud
             steps {
@@ -116,7 +125,10 @@ pipeline {
         stage ('Deploy') {
             steps {
                 script{
+                    //echo "env.BRANCH_NAME: " + env.BRANCH_NAME 
+                    //echo "BRANCH: " + BRANCH
                     if(env.BRANCH_NAME == BRANCH ){
+                        echo "Deploying to PCF"
                         withCredentials([[$class  : 'UsernamePasswordMultiBinding',
                                   credentialsId   : 'PCF_LOGIN',
                                   usernameVariable: 'USERNAME',
@@ -126,6 +138,7 @@ pipeline {
                         sh 'cf login -a http://api.run.pivotal.io -u $USERNAME -p $PASSWORD \
                         -o "Revature Training" -s development'
                         sh 'cf push'
+                        
                         }
                     }   
                 }
