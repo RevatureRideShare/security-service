@@ -1,6 +1,15 @@
 package com.revature.bean;
 
+/**
+ * A DTO (Data Transfer Object) is a java bean that is translated into a ready to transfer object
+ * that is sent to the front end or visa-versa. DTO's allow us to pass data around the application
+ * without making more Http requests or responses than necessary by passing the data in a single
+ * request or response.
+ */
 public class CarDto {
+  /**
+   * The number of seats a user's car has.
+   */
   private int seatNumber;
 
   public int getSeatNumber() {

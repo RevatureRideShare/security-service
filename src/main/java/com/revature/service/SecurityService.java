@@ -1,10 +1,8 @@
 package com.revature.service;
 
 import static com.revature.util.LoggerUtil.trace;
-
 import com.revature.bean.Security;
 import com.revature.repository.SecurityRepository;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,17 +11,20 @@ import org.springframework.stereotype.Service;
  * microservice.
  * 
  * @author Michael
- *
  */
 @Service
 public class SecurityService {
 
-  // ! PasswordEncoder is a spring security variable that is used to encrypt passwords for storage
-  // ! in the database
-  // ! and to encrypt passwords during login attempts for comparison to persisted passwords.
+  /**
+   * PasswordEncoder is a spring security variable that is used to encrypt passwords for storage in
+   * the database and to encrypt passwords during login attempts for comparison to persisted
+   * passwords.
+   */
   private PasswordEncoder passwordEncoder;
 
-  // ! The SecurityRepository object peforms DAO operations for the security table.
+  /**
+   * The SecurityRepository object performs DAO operations for the security table.
+   */
   private SecurityRepository securityRepository;
 
   public SecurityService(PasswordEncoder passwordEncoder, SecurityRepository securityRepository) {

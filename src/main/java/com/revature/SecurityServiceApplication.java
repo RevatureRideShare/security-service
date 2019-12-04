@@ -19,10 +19,13 @@ import org.springframework.web.filter.CorsFilter;
 @EnableEurekaClient
 public class SecurityServiceApplication {
 
-  //! The main method exists to hold the SpringApplication.run command that runs the Spring Boot
-  //! Application.
-  //! It takes in an array of arguments as any main method of a Java program would.
-  //! The main method relies on the Spring Boot dependency.
+  /**
+   * The main method exists to hold the SpringApplication.run command that runs the Spring Boot
+   * Application. It takes in an array of arguments as any main method of a Java program would. The
+   * main method relies on the Spring Boot dependency.
+   * 
+   * @param args
+   */
   public static void main(String[] args) {
     SpringApplication.run(SecurityServiceApplication.class, args);
   }
