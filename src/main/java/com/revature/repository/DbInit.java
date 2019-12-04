@@ -1,10 +1,8 @@
 package com.revature.repository;
 
 import com.revature.bean.Security;
-
 import java.util.Arrays;
 import java.util.List;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,11 +18,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class DbInit implements CommandLineRunner {
 
-  //! This field is a SecurityRepository object that handles DAO operations for the security table.
+  /**
+   * This field is a SecurityRepository object that handles DAO operations for the security table.
+   */
   private SecurityRepository securityRepository;
 
-  //! This field is a PasswordEncoder object that provides the encryption method for passwords
-  //! stored in the security table.
+  /**
+   * This field is a PasswordEncoder object that provides the encryption method for passwords stored
+   * in the security table.
+   */
   private PasswordEncoder passwordEncoder;
 
   public DbInit(SecurityRepository securityRepository, PasswordEncoder passwordEncoder) {
@@ -32,9 +34,11 @@ public class DbInit implements CommandLineRunner {
     this.passwordEncoder = passwordEncoder;
   }
 
-  //! This method sets up the initial database state on every run of the Spring Boot application.
-  //! COMMENT OUT OR DELETE THE METHOD WHEN THE FINAL VERSION OF THE APPLICATION IS IN USE.
-  //! This method relies on the Spring Boot dependency.
+  /**
+   * This method sets up the initial database state on every run of the Spring Boot application.
+   * This resets everything in the database. COMMENT OUT OR DELETE THE METHOD WHEN THE FINAL VERSION
+   * OF THE APPLICATION IS IN USE. This method relies on the Spring Boot dependency.
+   */
   @Override
   public void run(String... args) {
     // Delete all the previous users in the database.

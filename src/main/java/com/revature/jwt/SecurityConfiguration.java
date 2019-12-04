@@ -2,7 +2,6 @@ package com.revature.jwt;
 
 import com.revature.repository.SecurityRepository;
 import com.revature.service.UserPrincipalDetailsService;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -16,21 +15,24 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
- * The SecurityConfiguration class performs initial setup for the security microservice when it is
+ * The SecurityConfiguration class performs initial setup for the security micro-service when it is
  * first started.
  * 
  * @author Michael
- *
  */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-  //! This field is a UserPrincipalDetailsService that is used to handle business logic related to
-  //! UserPrincipal objects.
+  /**
+   * This field is a UserPrincipalDetailsService that is used to handle business logic related to
+   * UserPrincipal objects.
+   */
   private UserPrincipalDetailsService userPrincipalDetailsService;
 
-  //! This field is a SecurityRepository object that handles DAO operations for the security table.
+  /**
+   * This field is a SecurityRepository object that handles DAO operations for the security table.
+   */
   private SecurityRepository securityRepository;
 
   public SecurityConfiguration(UserPrincipalDetailsService userPrincipalDetailsService,
@@ -39,20 +41,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     this.securityRepository = securityRepository;
   }
 
-  //! This configure method sets the AuthenticationManagerBuilder object that will be used by
-  //! Spring Security.
-  //! This method takes in an AuthenticationManagerBuilder object provided by Spring Security.
-  //! This method relies on the Spring Security dependency.
+  /**
+   * This configure method sets the AuthenticationManagerBuilder object that will be used by Spring
+   * Security. This method takes in an AuthenticationManagerBuilder object provided by Spring
+   * Security. This method relies on the Spring Security dependency.
+   */
   @Override
   protected void configure(AuthenticationManagerBuilder auth) {
     auth.authenticationProvider(authenticationProvider());
   }
 
-  //! This configure method configures the roles required to perform any requests given to the
-  //! microservice ecosystem.
-  //! The method runs on initial startup of the Spring Boot Application.
-  //! The method takes in a HttpSecurity object provided by Spring Security.
-  //! The method relies on the Spring Security dependency.
+  /**
+   * This configure method configures the roles required to perform any requests given to the
+   * micro-service ecosystem. The method runs on initial startup of the Spring Boot Application. The
+   * method takes in a HttpSecurity object provided by Spring Security. The method relies on the
+   * Spring Security dependency.
+   */
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
@@ -117,10 +121,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   }
 
-  //! This method provides the DaoAuthenticationProvider object required by Spring Security to
-  //! ensure that users are authenticated correctly.
-  //! The method also sets the passwordEncoder to be used for the entire application.
-  //! This method relies on the Spring Security dependency.
+  /**
+   * This method provides the DaoAuthenticationProvider object required by Spring Security to ensure
+   * that users are authenticated correctly. The method also sets the passwordEncoder to be used for
+   * the entire application. This method relies on the Spring Security dependency.
+   * 
+   * @return DaoAuthenticationProvider
+   */
   @Bean
   DaoAuthenticationProvider authenticationProvider() {
     DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -130,8 +137,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     return daoAuthenticationProvider;
   }
 
-  //! This method allows Spring to create and manage the passwordEncoder bean.
-  //! This method relies on the Spring Core dependency.
+  /**
+   * This method allows Spring to create and manage the passwordEncoder bean. This method relies on
+   * the Spring Core dependency.
+   * 
+   * @return PasswordEncoder
+   */
   @Bean
   PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();

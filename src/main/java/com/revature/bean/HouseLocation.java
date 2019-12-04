@@ -1,5 +1,15 @@
 package com.revature.bean;
 
+/**
+ * @param locationID ID representing a particular housing location DTO.
+ * @param address1 The street address.
+ * @param address2 The apartment number.
+ * @param city The city.
+ * @param state The state.
+ * @param zipCode The zip code.
+ * @param housingLocationName The name of the housing location.
+ * @param trainingLocation The training location DTO object.
+ */
 public class HouseLocation {
   private int locationID;
   private String address1;
@@ -76,19 +86,9 @@ public class HouseLocation {
 
   /**
    * Housing location DTO constructor that takes in all elements.
-   * 
-   * @param locationID ID representing a particular housing location DTO.
-   * @param address1 The street address.
-   * @param address2 The apartment number.
-   * @param city The city.
-   * @param state The state.
-   * @param zipCode The zip code.
-   * @param housingLocationName The name of the housing location.
-   * @param trainingLocation The training location DTO object.
    */
-  public HouseLocation(int locationID, String address1, String address2, String city,
-      String state, String zipCode, String housingLocationName,
-      TrainingLocation trainingLocation) {
+  public HouseLocation(int locationID, String address1, String address2, String city, String state,
+      String zipCode, String housingLocationName, TrainingLocation trainingLocation) {
     super();
     this.locationID = locationID;
     this.address1 = address1;

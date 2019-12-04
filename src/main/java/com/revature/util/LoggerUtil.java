@@ -2,6 +2,10 @@ package com.revature.util;
 
 import org.apache.log4j.Logger;
 
+/**
+ * A class setup for static importation into other classes to allow for easy logging without writing
+ * Logger.getRootLogger().Log... every time.
+ */
 public class LoggerUtil {
   private static Logger log = Logger.getRootLogger();
 
