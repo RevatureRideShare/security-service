@@ -3,6 +3,7 @@ package com.revature.bean;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -68,7 +69,7 @@ public class Security {
    * Get the roles string field as a list of strings. Gets list of roles for Spring Security to
    * authorize method calls off of.
    * 
-   * @return List<String>
+   * @return List of roles the user has.
    */
   public List<String> getRoleList() {
     if (this.roles.length() > 0) {

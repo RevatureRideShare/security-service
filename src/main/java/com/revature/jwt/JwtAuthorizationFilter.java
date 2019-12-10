@@ -2,15 +2,19 @@ package com.revature.jwt;
 
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 import static com.revature.util.LoggerUtil.trace;
+
 import com.auth0.jwt.JWT;
 import com.revature.bean.Security;
 import com.revature.bean.UserPrincipal;
 import com.revature.repository.SecurityRepository;
+
 import java.io.IOException;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -76,7 +80,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
    * table and null if the user is not present. This method relies on the Spring Security
    * dependency.
    * 
-   * @param request
+   * @param request HTTP Request from the gateway service.
    * @return Authentication
    */
   private Authentication getEmailPasswordAuthentication(HttpServletRequest request) {

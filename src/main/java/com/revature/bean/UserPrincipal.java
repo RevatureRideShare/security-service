@@ -3,6 +3,7 @@ package com.revature.bean;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +25,8 @@ public class UserPrincipal implements UserDetails {
    * This constructor allows Spring to perform constructor injection of any beans required for the
    * UserPrincipal to function.
    * 
-   * @param security
+   * @param security Security object passed in during setter injection. Security object represents
+   *        the user's security information.
    */
   public UserPrincipal(Security security) {
     this.security = security;

@@ -1,6 +1,7 @@
 package com.revature.repository;
 
 import com.revature.bean.Security;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +21,7 @@ public interface SecurityRepository extends JpaRepository<Security, Long> {
    * that it finds in the security table or null if the email matches nothing. The method relies on
    * the Spring Data dependency.
    * 
-   * @param email
+   * @param email Email of the user to be found.
    * @return
    */
   Security findByEmail(String email);

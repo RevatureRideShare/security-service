@@ -24,7 +24,7 @@ public class SecurityServiceApplication {
    * Application. It takes in an array of arguments as any main method of a Java program would. The
    * main method relies on the Spring Boot dependency.
    * 
-   * @param args
+   * @param args Java args passed in when initially running the program.
    */
   public static void main(String[] args) {
     SpringApplication.run(SecurityServiceApplication.class, args);

@@ -1,8 +1,10 @@
 package com.revature.service;
 
 import static com.revature.util.LoggerUtil.trace;
+
 import com.revature.bean.Security;
 import com.revature.repository.SecurityRepository;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

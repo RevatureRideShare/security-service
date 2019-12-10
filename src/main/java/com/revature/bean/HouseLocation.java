@@ -1,6 +1,8 @@
 package com.revature.bean;
 
 /**
+ * Represents the HouseLocation from the front end.
+ * 
  * @param locationID ID representing a particular housing location DTO.
  * @param address1 The street address.
  * @param address2 The apartment number.

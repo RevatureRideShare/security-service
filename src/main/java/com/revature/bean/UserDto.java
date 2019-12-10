@@ -2,6 +2,8 @@ package com.revature.bean;
 
 public class UserDto {
   /**
+   * UserDto represents a User from the frontend.
+   * 
    * @param email User's email.
    * @param firstName User's first name.
    * @param lastName User's last name.

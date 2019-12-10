@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.HttpMethod;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -42,14 +41,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-  @Value("#{environment.RIDESHARE_1909_USER_HOST}")
-  private String userHost;
-  @Value("#{environment.RIDESHARE_1909_ADMIN_HOST}")
-  private String adminHost;
-  @Value("#{environment.RIDESHARE_1909_USER_PORT}")
-  private String userPort;
-  @Value("#{environment.RIDESHARE_1909_ADMIN_PORT}")
-  private String adminPort;
+  private String userHost = System.getenv("RIDESHARE_1909_USER_HOST");
+  private String adminHost = System.getenv("RIDESHARE_1909_ADMIN_HOST");
+  private String userPort = System.getenv("RIDESHARE_1909_USER_PORT");
+  private String adminPort = System.getenv("RIDESHARE_1909_ADMIN_PORT");
 
   private static Logger log = Logger.getLogger("JwtAuthenticationFilter");
 
@@ -114,11 +109,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     // Getting currently logged in user.
     UserPrincipal userPrincipal = (UserPrincipal) authResult.getPrincipal();
-
-    userHost = "localhost";
-    userPort = "8090";
-    adminHost = "localhost";
-    adminPort = "8091";
 
     log.info("Created userPrincipal " + userPrincipal.toString());
 
