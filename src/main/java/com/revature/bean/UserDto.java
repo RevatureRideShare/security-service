@@ -1,6 +1,19 @@
 package com.revature.bean;
 
 public class UserDto {
+  /**
+   * UserDto represents a User from the frontend.
+   * 
+   * @param email User's email.
+   * @param firstName User's first name.
+   * @param lastName User's last name.
+   * @param phoneNumber User's phone number.
+   * @param rideStatus User's ride status.
+   * @param role User's role.
+   * @param accountStatus User's account status.
+   * @param houseLocation User's housing location (Housing object nested inside due to angular).
+   * @param carDto User's car (Car object nested inside due to angular).
+   */
   private String email;
   private String firstName;
   private String lastName;
@@ -184,16 +197,6 @@ public class UserDto {
 
   /**
    * UserDto is there to help transfer User objects from Angular into Java.
-   * 
-   * @param email User's email.
-   * @param firstName User's first name.
-   * @param lastName User's last name.
-   * @param phoneNumber User's phone number.
-   * @param rideStatus User's ride status.
-   * @param role User's role.
-   * @param accountStatus User's account status.
-   * @param houseLocation User's housing location (Housing object nested inside due to angular).
-   * @param carDto User's car (Car object nested inside due to angular).
    */
 
   public UserDto(String email, String firstName, String lastName, String phoneNumber,

@@ -9,10 +9,14 @@ package com.revature.bean;
  */
 public class Login {
 
-  //! This variable is a field representing the email that a user is attempting to log in with.
+  /**
+   * This variable is a field representing the email that a user is attempting to log in with.
+   */
   private String email;
 
-  //! This variable is a field representing the password that a user is attempting to log in with.
+  /**
+   * This variable is a field representing the password that a user is attempting to log in with.
+   */
   private String password;
 
   public String getPassword() {

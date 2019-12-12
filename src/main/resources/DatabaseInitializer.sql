@@ -6,6 +6,8 @@ password text not null,
 roles text
 )
 
+truncate ride_share_security.users restart identity cascade;
+
 -- CONVIENIENCE STATEMENT FOR MINOR TABLE ALTERATIONS IF NECESSARY.
 --drop table "security";
 

@@ -21,25 +21,31 @@ import javax.persistence.Table;
 @Table(name = "security")
 public class Security {
 
-  //! This field is the primary key for Security objects persisted in the security table.
-  //! UUID did not work for userID because hibernate could not convert big decimal
-  //! into UUID.
+  /**
+   * This field is the primary key for Security objects persisted in the security table. UUID did
+   * not work for userID because Hibernate could not convert big decimal into UUID.
+   */
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "user_id")
   int userID;
 
-  //! This field is the user's email address. It must be unique.
+  /**
+   * This field is the user's email address. It must be unique.
+   */
   @Column(name = "email")
   String email;
 
-  //! This field is the user's password. It will be encrypted by the time the Security object is
-  //! persisted in the security table.
+  /**
+   * This field is the user's password. It will be encrypted by the time the Security object is
+   * persisted in the security table.
+   */
   @Column(name = "password")
   String password;
 
-  //! This field contains any Security roles the user has. Separate roles must be separated by ",
-  //! ".
+  /**
+   * This field contains any Security roles the user has. Separate roles must be separated by ",".
+   */
   @Column(name = "roles")
   private String roles = "";
 
@@ -63,10 +69,8 @@ public class Security {
    * Get the roles string field as a list of strings. Gets list of roles for Spring Security to
    * authorize method calls off of.
    * 
-   * @return
+   * @return List of roles the user has.
    */
-  //! Get the roles string field as a list of strings.
-  //! Gets list of roles for Spring Security to authorize method calls off of.
   public List<String> getRoleList() {
     if (this.roles.length() > 0) {
       return Arrays.asList(this.roles.split(", "));
@@ -94,15 +98,15 @@ public class Security {
    * @param password encrypted password of user
    * @param roles security roles of the user
    */
-  //! This constructor is used by the SecurityService class for registering users with encrypted
-  // passwords.
   public Security(String email, String password, String roles) {
     this.email = email;
     this.password = password;
     this.roles = roles;
   }
 
-  //! This constructor is the no arguments constructor.
+  /**
+   * This constructor is the no arguments constructor.
+   */
   public Security() {
     super();
   }
